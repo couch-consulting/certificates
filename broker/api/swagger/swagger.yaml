@@ -1,0 +1,267 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Certificate Creator
+# during dev, should point to your local machine
+host: localhost:10010
+# basePath prefixes all resource paths 
+basePath: /
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+
+tags:
+  - name: Broker
+    description: Everything directly user facing
+  - name: Storage
+    description: Everything involving strage
+  - name: Template
+    description: Everything about rendering templates
+  - name: Management
+    description: Everything about managing the data in the backend
+
+paths:
+  /:
+    get:
+      tags:
+        - Broker
+      description: Deliver the frontend
+      # used as the method name of the controller
+      responses:
+        "200":
+          description: Success
+          # TODO: SET CONTENT TYPE FOR HTML
+
+
+  /templates:
+    post:
+      description: Create a new certificate with given data
+      tags:
+        - Broker
+      consumes:
+        - application/json
+      parameters:
+        - name: "templateData"
+          in: "body"
+          description: "User input to fill the certificate with"
+          required: true
+          schema:
+            $ref: "#/definitions/templateData"
+      responses:
+        201:
+          description: "New template ID"
+          schema:
+            $ref: "#/definitions/templateId"
+        400:
+          description: "Invalid format"
+    get:
+      description: Get a list of templates
+      tags:
+        - Broker
+      produces:
+        - application/json
+      responses:
+        200:
+          description: "A list of templates"
+          schema:
+            $ref: "#/definitions/templateList"
+        400:
+          description: "Something is wrong"
+  
+  /generateTemplate/{taskId}:
+    post:
+      description: "Generates a template with a given task id"
+      tags:
+        - Template
+      parameters:
+        - name: "taskId"
+          in: "path"
+          description: "ID of the task to be processed"
+          required: true
+          type: "string"
+          format: "uuid"
+      responses:
+        200:
+          description: "Accepted task"
+        404:
+          description: "ID not found"
+  
+  /certify/{taskId}:
+    get:
+      description: "Get a final rendered pdf of a certificate template"
+      tags:
+        - Storage
+      parameters:
+        - name: "taskId"
+          in: "path"
+          description: "ID of the task to deliver the pdf"
+          required: true
+          type: "string"
+          format: "uuid"
+      produces:
+        - "application/pdf"
+      responses:
+        200:
+          description: "Your certificate"
+          schema:
+            type: "file"
+        404:
+          description: "ID not found"
+
+  /management:
+    post:
+      description: "Upload a new template"
+      tags:
+        - Storage
+        - Management
+      parameters:
+        - name: "template"
+          in: "body"
+          description: "Data of the new template"
+          schema:
+            $ref: "#/definitions/templateUpload"
+      responses:
+        "201":
+          description: "New template ID"
+          schema:
+            $ref: "#/definitions/templateId"
+    get:
+      description: "Get all templates"
+      tags:
+        - Storage
+        - Management
+      responses:
+        200:
+          description: "All templates"
+          schema:
+            $ref: "#/definitions/templateList"
+
+  /management/{templateId}:
+    put:
+      description: "Update a template with a given ID"
+      tags:
+        - Storage
+        - Management
+      parameters:
+        - in: "path"
+          name: "templateId"
+          description: "ID of the template to be updated"
+          required: true
+          schema:
+            $ref: "#/definitions/templateId"
+        - name: "templateData"
+          in: "body"
+          description: "The data of the template which should be updated"
+          schema:
+            $ref: "#/definitions/templateUpload"
+      responses:
+        200:
+          description: "Success"
+        404:
+          description: "Template with given ID not found"
+
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+definitions:
+
+  templateId:
+    required:
+      - templateId
+    properties:
+      templateId:
+        type: "string"
+        format: "uuid"
+
+  templateData:
+    type: "object"
+    required:
+      - templateId
+      - certifier
+      - certificant
+      - laudatio
+    properties:
+      templateId:
+        type: "string"
+        format: "uuid"
+      certifier:
+        type: "string"
+      certificant:
+        type: "string"
+      laudatio:
+        type: "string"
+      certificationDate:
+        type: "string"
+        format: "date"
+        default: "1970-01-01"
+      certificationPlace:
+        type: "string"
+        default: "Internet"
+
+  templateList:
+    type: "array"
+    items:
+      $ref: "#/definitions/templateObject"
+      
+  templateUpload:
+    type: "object"
+    required:
+      - name
+      - description
+      - inputFields
+      - previewHTML
+    properties:
+      name:
+        type: "string"
+      description:
+        type: "string"
+      inputFields:
+        type: "array"
+        items:
+          type: "string"
+      previewHTML:
+        type: "string"
+      previewImage:
+        type: "string"
+        format: "binary"
+  
+  templateObject:
+    type: "object"
+    required:
+      - templateId
+      - name
+      - description
+      - inputFields
+      - previewHTML
+    properties:
+      templateId:
+        type: "string"
+        format: "uuid"
+      name:
+        type: "string"
+      description:
+        type: "string"
+      inputFields:
+        type: "array"
+        items:
+          type: "string"
+      previewHTML:
+        type: "string"
+      previewImage:
+        type: "string"
+        format: "binary"
+
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
