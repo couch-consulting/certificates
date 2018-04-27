@@ -1,0 +1,44 @@
+{
+  "name": "certification-storage",
+  "version": "0.0.1",
+  "description": "The storage api worker of the certification project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gulp build",
+    "lint": "tslint src/**/*.ts src/*.ts",
+    "start": "node build/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/couch-consulting/certificates.git"
+  },
+  "keywords": [
+    "typescript",
+    "express",
+    "certificates"
+  ],
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@types/node": "^9.6.2",
+    "@types/nano": "latest",
+    "@types/express": "latest",
+    "@types/debug": "latest",
+    "del": "^3.0.0",
+    "gulp": "^4.0.0",
+    "gulp-tslint": "^8.1.3",
+    "gulp-typedoc": "^2.2.0",
+    "gulp-typescript": "^4.0.2",
+    "tslint": "^5.9.1",
+    "typedoc": "^0.11.1",
+    "typescript": "^2.8.1",
+    "tslint-config-airbnb": "^5.8.0"
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/couch-consulting/certificates/issues"
+  },
+  "homepage": "https://github.com/couch-consulting/certificates#readme"
+}
