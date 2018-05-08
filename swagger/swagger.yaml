@@ -167,6 +167,23 @@
             description: "Success"
           404:
             description: "Template with given ID not found"
+      delete:
+        description: "Delete a template with a given id"
+        tags:
+          - Storage
+          - Management
+        parameters:
+          - in: "path"
+            name: "templateId"
+            description: "ID of the template to be updated"
+            required: true
+            type: string
+            format: "uuid"
+        responses:
+          200:
+            description: "Success"
+          404:
+            description: "Template with given ID not found"
 
     /swagger:
       x-swagger-pipe: swagger_raw
