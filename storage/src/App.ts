@@ -3,6 +3,8 @@ import * as express from 'express';
 import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
 import CertifyRouter from './routes/CertifyRouter';
+import TemplateRouter from './routes/TemplateRouter';
+// import ManagementRouter from './routes/ManagementRouter';
 
 // Creates and configures an ExpressJS web server.
 class App {
@@ -35,7 +37,10 @@ class App {
       });
     });
     this.express.use('/', router);
-    this.express.use('/test', CertifyRouter);
+    this.express.use('/certify', CertifyRouter);
+    this.express.use('/templates', TemplateRouter);
+    // this.express.use('/management', ManagementRouter);
+
   }
 
 }

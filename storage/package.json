@@ -18,23 +18,25 @@
     "express",
     "certificates"
   ],
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@types/morgan": "^1.7.35",
-    "@types/node": "^9.6.2",
-    "@types/nano": "latest",
-    "@types/express": "latest",
     "@types/debug": "latest",
+    "@types/express": "latest",
+    "@types/fs-extra": "^5.0.2",
+    "@types/morgan": "^1.7.35",
+    "@types/nano": "latest",
+    "@types/node": "^9.6.2",
     "del": "^3.0.0",
+    "fs-extra": "^6.0.0",
     "gulp": "^4.0.0",
     "gulp-tslint": "^8.1.3",
     "gulp-typedoc": "^2.2.0",
     "gulp-typescript": "^4.0.2",
+    "morgan": "^1.9.0",
     "tslint": "^5.9.1",
+    "tslint-config-airbnb": "^5.8.0",
     "typedoc": "^0.11.1",
-    "typescript": "^2.8.1",
-    "tslint-config-airbnb": "^5.8.0"
+    "typescript": "^2.8.1"
   },
   "author": "",
   "license": "GPL-3.0",
