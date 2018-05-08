@@ -1,12 +1,13 @@
 'use strict';
 
-export { getTaskData };
+// export { getTaskData };
 
 import * as Nano from 'nano';
 const databaseURL : string = process.env.DATABASE || 'http://localhost:5984';
 const nano = Nano(databaseURL);
 const req = nano.auth('anton', 'hynkel');
 
+/*
 const db = nano.db.use('certificates').then((result) => {
     console.log('Connected to database');
     }).catch((err) => {
@@ -22,3 +23,5 @@ function getTaskData(taskId: string) {
     return err;
   });
 }
+
+*/
