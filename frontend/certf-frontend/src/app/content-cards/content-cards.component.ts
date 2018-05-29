@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {PreviewCertf} from '../classes/preview-certf';
-import {MOCKPREVIEW} from '../classes/mock-previewCertf'
+import {MOCKPREVIEW} from '../classes/mock-previewCertf';
 
 @Component({
   selector: 'app-content-card',
@@ -17,8 +17,7 @@ export class ContentCardsComponent implements OnInit {
   ngOnInit() {
   }
 
-
-    chooseCertificate(){
-    console.log("test");
+    chooseCertificate(previewCertf) {
+    console.log('' + previewCertf.name);
   }
 }

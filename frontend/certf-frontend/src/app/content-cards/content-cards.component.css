@@ -1,4 +1,15 @@
 .start-card{
-  min-width:auto;
+  min-width: 23%;
+  max-width: 23%;
   margin: 0.5%;
+}
+.container{
+  min-width: fit-content;
+}
+
+@media only screen and (max-width: 500px) {
+  .start-card{
+    max-width: 48%;
+    min-width: auto;
+  }
 }
