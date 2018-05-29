@@ -1,0 +1,24 @@
+<div class="container" fxLayout="row warp" fxLayoutAlign="start">
+    <mat-card fxFlex class="start-card" *ngFor="let previewCertf of previewCertfs">
+
+      <mat-card-header>
+        <mat-card-title class="md-card-title">{{previewCertf.name}}</mat-card-title>
+      </mat-card-header>
+
+      <img mat-card-image src={{previewCertf.previewImage}} alt="Image of certificate">
+
+
+      <mat-card-content>
+        <div class="card-text-content">
+          {{previewCertf.description}}
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-button (click)="chooseCertificate()">Use this!</button>
+      </mat-card-actions>
+
+    </mat-card>
+</div>
+
+
