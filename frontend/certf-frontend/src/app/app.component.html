@@ -5,8 +5,11 @@
     <span class="example-spacer"></span>
 
     <button mat-button>About</button>
+
+    <button routerLink="/" mat-icon-button>
+      <mat-icon>home</mat-icon>
+    </button>
   </mat-toolbar-row>
 </mat-toolbar>
 
-
-<app-content-card></app-content-card>
+<router-outlet></router-outlet>

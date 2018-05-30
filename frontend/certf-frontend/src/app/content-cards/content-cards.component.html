@@ -2,7 +2,7 @@
     <mat-card fxFlex class="start-card" *ngFor="let previewCertf of previewCertfs">
 
       <mat-card-header>
-        <mat-card-title class="md-card-title">{{previewCertf.name}}</mat-card-title>
+        <mat-card-title class="mat-card-title">{{previewCertf.name}}</mat-card-title>
       </mat-card-header>
 
       <img mat-card-image src={{previewCertf.previewImage}} alt="Image of certificate">
@@ -14,8 +14,8 @@
         </div>
       </mat-card-content>
 
-      <mat-card-actions>
-        <button mat-button (click)="chooseCertificate(previewCertf)">Use this!</button>
+      <mat-card-actions fxLayoutAlign="space-evenly center">
+        <button mat-raised-button class="button" color="primary" (click)="chooseCertificate(previewCertf)" fxFlex>Use this!</button>
       </mat-card-actions>
 
     </mat-card>
