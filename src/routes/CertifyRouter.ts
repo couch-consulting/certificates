@@ -1,6 +1,6 @@
 'use strict';
 
-import * as db from '../models/database';
+import Database from '../models/Database';
 import { Router, Request, Response, NextFunction } from 'express';
 import { json } from 'body-parser';
 import * as fs from 'fs-extra';
@@ -42,7 +42,7 @@ export class CertifyRouter {
    * endpoints.
    */
   init() {
-    this.router.get('/:taskid', this.getCertificate);
+    this.router.get('/:taskid', this.getCertificate.bind(this));
   }
 
 }

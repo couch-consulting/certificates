@@ -1,6 +1,6 @@
 'use strict';
 
-import * as db from '../models/database';
+import * as db from '../models/Database';
 import { Router, Request, Response, NextFunction } from 'express';
 import { json } from 'body-parser';
 
@@ -33,8 +33,8 @@ export class TemplateRouter {
    * endpoints.
    */
   init() {
-    this.router.get('/', this.getTemplates);
-    this.router.post('/', this.createCertificate);
+    this.router.get('/', this.getTemplates.bind(this));
+    this.router.post('/', this.createCertificate.bind(this));
   }
 
 }

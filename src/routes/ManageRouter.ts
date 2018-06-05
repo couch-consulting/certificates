@@ -1,16 +1,16 @@
-'use strict';
-
-import * as db from '../models/database';
+import Database from '../models/Database';
 import { Router, Request, Response, NextFunction } from 'express';
 import { json } from 'body-parser';
 
 export class ManagementRouter {
   router: Router;
+  private database: Database;
 
   /**
    * Initialize the router
    */
   constructor() {
+    this.database = new Database();
     this.router = Router();
     this.init();
   }
@@ -25,6 +25,13 @@ export class ManagementRouter {
    * GET operational data of all templates
    */
   public getTemplates(req: Request, res: Response, next: NextFunction) {
+    console.log('getTemplates');
+    this.database.getAllTemplates().then((data: Object) => {
+      res.send(data);
+    }).catch((err: null) => {
+      res.sendStatus(500);
+      res.end();
+    });
   }
 
   /**
@@ -34,9 +41,14 @@ export class ManagementRouter {
   }
 
   /**
-   * DELETE a template
+   * DELETE a template with a given id
    */
   public deleteTemplate(req: Request, res: Response, next: NextFunction) {
+    this.database.deleteTemplate(req.params.templateId).then((data: boolean) => {
+      res.sendStatus(200);
+    }).catch((err: boolean) => {
+      res.sendStatus(404);
+    });
   }
 
   /**
@@ -44,10 +56,10 @@ export class ManagementRouter {
    * endpoints.
    */
   init() {
-    this.router.get('/', this.getTemplates);
-    this.router.post('/', this.uploadTemplate);
-    this.router.put('/:templateId', this.updateTemplate);
-    this.router.delete('/:templateId', this.deleteTemplate);
+    this.router.get('/', this.getTemplates.bind(this));
+    this.router.post('/', this.uploadTemplate.bind(this));
+    this.router.put('/:templateId', this.updateTemplate.bind(this));
+    this.router.delete('/:templateId', this.deleteTemplate.bind(this));
   }
 
 }
