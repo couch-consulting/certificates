@@ -49,6 +49,9 @@
               <li>
                 <a href="#operation--management--templateId--put"> PUT /management/{templateId} </a>
               </li>
+              <li>
+                <a href="#operation--management--templateId--delete"> DELETE /management/{templateId} </a>
+              </li>
             </ul>
           </section>
           <section>
@@ -70,6 +73,9 @@
               </li>
               <li>
                 <a href="#operation--management--templateId--put"> PUT /management/{templateId} </a>
+              </li>
+              <li>
+                <a href="#operation--management--templateId--delete"> DELETE /management/{templateId} </a>
               </li>
             </ul>
           </section>
@@ -704,6 +710,76 @@
               <div class="doc-examples"> </div>
             </div>
           </div>
+          <div id="operation--management--templateId--delete" class="operation panel" data-traverse-target="operation--management--templateId--delete">
+            <!-- <section class="operation-tags row"> -->
+            <!-- <div class="doc-copy"> -->
+            <div class="operation-tags">
+              <a class="label" href="#tag-Storage">Storage</a>
+              <!--, -->
+              <a class="label" href="#tag-Management">Management</a>
+              <!---->
+            </div>
+            <!-- </div> -->
+            <!-- </section> -->
+            <h2 class="operation-title">
+              <span class="operation-name">
+                <span class="operation-name">DELETE</span>
+                <span class="operation-path">/management/{templateId}</span>
+              </span>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-description">
+                  <p>Delete a template with a given id</p>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-request-params">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">templateId</div>
+                      <span class="json-property-required"></span>
+                      <div class="prop-subtitle"> in path </div>
+                      <div class="prop-subtitle">
+                        <span class="json-property-type">string</span>
+                        <span class="json-property-format">(uuid)</span>
+                        <span class="json-property-range" title="Value limits"></span>
+                      </div>
+                    </div>
+                    <div class="prop-value">
+                      <p>ID of the template to be updated</p>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples"></div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-responses">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">200 OK</div>
+                    </div>
+                    <div class="prop-value">
+                      <p>Success</p>
+                    </div>
+                  </div>
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">404 Not Found</div>
+                    </div>
+                    <div class="prop-value">
+                      <p>Template with given ID not found</p>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples"> </div>
+            </div>
+          </div>
           <h1 id="tag-Template" class="swagger-summary-tag" data-traverse-target="tag-Template">Template</h1>
           <div class="tag-description doc-row">
             <div class="doc-copy">
@@ -1048,6 +1124,76 @@
               <div class="doc-examples"> </div>
             </div>
           </div>
+          <div id="operation--management--templateId--delete" class="operation panel" data-traverse-target="operation--management--templateId--delete">
+            <!-- <section class="operation-tags row"> -->
+            <!-- <div class="doc-copy"> -->
+            <div class="operation-tags">
+              <a class="label" href="#tag-Storage">Storage</a>
+              <!--, -->
+              <a class="label" href="#tag-Management">Management</a>
+              <!---->
+            </div>
+            <!-- </div> -->
+            <!-- </section> -->
+            <h2 class="operation-title">
+              <span class="operation-name">
+                <span class="operation-name">DELETE</span>
+                <span class="operation-path">/management/{templateId}</span>
+              </span>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-description">
+                  <p>Delete a template with a given id</p>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-request-params">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">templateId</div>
+                      <span class="json-property-required"></span>
+                      <div class="prop-subtitle"> in path </div>
+                      <div class="prop-subtitle">
+                        <span class="json-property-type">string</span>
+                        <span class="json-property-format">(uuid)</span>
+                        <span class="json-property-range" title="Value limits"></span>
+                      </div>
+                    </div>
+                    <div class="prop-value">
+                      <p>ID of the template to be updated</p>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples"></div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-responses">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">200 OK</div>
+                    </div>
+                    <div class="prop-value">
+                      <p>Success</p>
+                    </div>
+                  </div>
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">404 Not Found</div>
+                    </div>
+                    <div class="prop-value">
+                      <p>Template with given ID not found</p>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples"> </div>
+            </div>
+          </div>
           <h1>Schema Definitions</h1>
           <div id="definition-templateId" class="definition panel" data-traverse-target="definition-templateId">
             <h2 class="panel-title">
@@ -1231,6 +1377,13 @@
                       <span class="json-property-range" title="Value limits"></span>
                       <span class="json-property-required"></span>
                     </dt>
+                    <dt class="json-inner-schema">
+                      <section class="json-schema-array-items">
+                        <span class="json-property-type">string</span>
+                        <span class="json-property-range" title="Value limits"></span>
+                        <div class="json-inner-schema"> </div>
+                      </section>
+                    </dt>
                     <dt data-property-name="previewHTML">
                       <span class="json-property-name">previewHTML:</span>
                       <span class="json-property-type">string</span>
@@ -1301,6 +1454,13 @@
                       <span class="json-property-type">string[]</span>
                       <span class="json-property-range" title="Value limits"></span>
                       <span class="json-property-required"></span>
+                    </dt>
+                    <dt class="json-inner-schema">
+                      <section class="json-schema-array-items">
+                        <span class="json-property-type">string</span>
+                        <span class="json-property-range" title="Value limits"></span>
+                        <div class="json-inner-schema"> </div>
+                      </section>
                     </dt>
                     <dt data-property-name="previewHTML">
                       <span class="json-property-name">previewHTML:</span>
