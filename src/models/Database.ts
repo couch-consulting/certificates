@@ -1,22 +1,40 @@
 'use strict';
 
-// export { getTaskData };
-
 import * as Cloudant from '@cloudant/cloudant';
+import { templateList, templateObject, templateUpload, templateData } from './Interfaces';
 import { resolve } from 'dns';
 
+interface CloudantCredentials {
+  username: string;
+  password: string;
+  host: string;
+  port: number;
+  url: string;
+}
+
 export default class Database {
-  credentials : Object;
+  credentials : CloudantCredentials;
   client: any;
   templates: any;
 
   /**
    * Initialize the database connection
    */
-  constructor(credentials: Object) {
-    this.credentials = credentials;
+  constructor() {
+    // Database connections may be either provided by the vcap
+    // environment variables inside of Cloud Foundry or
+    // by a dedicated environment variable for local testing.
+    if (process.env.VCAP_SERVICES) {
+      const vcap: Object = JSON.parse(process.env.VCAP_SERVICES);
+      this.credentials = vcap['cloudantNoSQLDB'][0].credentials;
+    } else if (process.env.DATABASE) {
+      this.credentials = JSON.parse(process.env.DATABASE);
+    } else {
+      console.error('No database credentials provided.');
+      process.exit(1);
+    }
 
-    // Use promises
+    // Enable the promises plugin
     this.credentials['plugins'] = ['promises'];
     this.client = Cloudant(this.credentials);
     (this.client.db.create('templates') as any).then(() => {
@@ -27,6 +45,10 @@ export default class Database {
     this.templates = this.client.db.use('templates');
   }
 
+  /**
+   * Returns all templates.
+   * @return Promise with the results from the database
+   */
   public getAllTemplates(): Promise<Object[] | null> {
     return new Promise((resolve, reject) => {
       this.templates.list({ include_docs:true }).then((data) => {
@@ -42,6 +64,11 @@ export default class Database {
     });
   }
 
+  /**
+   * Deletes a template with a given ID
+   * @param templateId the uuid of the template to delete
+   * @return Promise of the success of the operation
+   */
   public deleteTemplate(templateId: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.templates.get(templateId).then((data) => {
