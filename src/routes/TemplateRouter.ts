@@ -3,6 +3,7 @@
 import Database from '../models/Database';
 import { Router, Request, Response, NextFunction } from 'express';
 import { json } from 'body-parser';
+import { templateList } from '../models/Interfaces';
 
 export class TemplateRouter {
   router: Router;
@@ -28,7 +29,7 @@ export class TemplateRouter {
    * GET all template information
    */
   public getTemplates(req: Request, res: Response, next: NextFunction) {
-    this.database.getAllTemplates().then((data: Object) => {
+    this.database.getAllTemplates().then((data: templateList) => {
       res.send(data);
     }).catch((err: null) => {
       res.sendStatus(500);

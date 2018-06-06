@@ -42,6 +42,7 @@ export default class Database {
     }).catch((err) => {
       console.log('Database already exists');
     });
+
     this.templates = this.client.db.use('templates');
   }
 
@@ -49,11 +50,18 @@ export default class Database {
    * Returns all templates.
    * @return Promise with the results from the database
    */
-  public getAllTemplates(): Promise<Object[] | null> {
+  public getAllTemplates(management: boolean = false): Promise<Object[] | null> {
     return new Promise((resolve, reject) => {
       this.templates.list({ include_docs:true }).then((data) => {
         const result = Array() as Object[];
         data['rows'].forEach((row: Object) => {
+          // For requests not coming to the management endpoint
+          // delete operational information
+          if (!management) {
+            delete row['doc']['_id'];
+            delete row['doc']['_rev'];
+            delete row['doc']['executions'];
+          }
           result.push(row['doc']);
         });
         resolve(result);

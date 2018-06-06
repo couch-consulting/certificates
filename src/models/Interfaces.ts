@@ -9,9 +9,28 @@ export interface templateList extends Array<templateObject> {
 }
 
 /**
- * A single template as it is stored in the database
+ * An array of extendedTemplateObjects
+ */
+export interface extendedTemplateList extends Array<extendedTemplateObject> {
+}
+
+/**
+ * A single template as it returned to the user
  */
 export interface templateObject {
+  templateId: string;
+  name: string;
+  description: string;
+  inputFields: string[];
+  previewHTML: string;
+  previewImage: string;
+}
+
+
+/**
+ * A single template as it is stored in the database
+ */
+export interface extendedTemplateObject {
   _id: string;
   _rev: string;
   templateId: string;
@@ -20,6 +39,7 @@ export interface templateObject {
   inputFields: string[];
   previewHTML: string;
   previewImage: string;
+  executions: number;
 }
 
 /**

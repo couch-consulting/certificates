@@ -1,6 +1,7 @@
 import Database from '../models/Database';
 import { Router, Request, Response, NextFunction } from 'express';
 import { json } from 'body-parser';
+import { extendedTemplateList } from '../models/Interfaces';
 
 export class ManagementRouter {
   router: Router;
@@ -26,7 +27,8 @@ export class ManagementRouter {
    */
   public getTemplates(req: Request, res: Response, next: NextFunction) {
     console.log('getTemplates');
-    this.database.getAllTemplates().then((data: Object) => {
+    // Get Management view of all templates
+    this.database.getAllTemplates(true).then((data: extendedTemplateList) => {
       res.send(data);
     }).catch((err: null) => {
       res.sendStatus(500);
