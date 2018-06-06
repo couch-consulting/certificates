@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "gulp build",
+    "build:spectacle": "spectacle -t ../certification-docs/ swagger/swagger.yaml",
     "lint": "tslint src/**/*.ts src/*.ts",
     "start": "node build/app/index.js"
   },

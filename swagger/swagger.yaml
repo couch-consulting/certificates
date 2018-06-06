@@ -142,7 +142,7 @@
           200:
             description: "All templates"
             schema:
-              $ref: "#/definitions/templateList"
+              $ref: "#/definitions/extendedTemplateList"
 
     /management/{templateId}:
       put:
@@ -222,11 +222,18 @@
         certificationPlace:
           type: "string"
           default: "Internet"
+        additionalInputs:
+          type: "object"
 
     templateList:
       type: "array"
       items:
         $ref: "#/definitions/templateObject"
+
+    extendedTemplateList:
+      type: "array"
+      items:
+        $ref: "#/definitions/extendedTemplateObject"
 
     templateUpload:
       type: "object"
@@ -275,6 +282,34 @@
         previewImage:
           type: "string"
           format: "binary"
+
+    extendedTemplateObject:
+      type: "object"
+      required:
+        - templateId
+        - name
+        - description
+        - inputFields
+        - previewHTML
+      properties:
+        templateId:
+          type: "string"
+          format: "uuid"
+        name:
+          type: "string"
+        description:
+          type: "string"
+        inputFields:
+          type: "array"
+          items:
+            type: "string"
+        previewHTML:
+          type: "string"
+        previewImage:
+          type: "string"
+          format: "binary"
+        executions:
+          type: "number"
 
     ErrorResponse:
       required:
