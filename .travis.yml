@@ -1,7 +1,9 @@
-language: nodejs
-before_script:
-- npm install
-- npm run build
+language: node_js
+
+
+script:
+  - npm run build
+
 deploy:
   provider: bluemixcloudfoundry
   username: apikey
