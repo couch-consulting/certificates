@@ -83,8 +83,10 @@
           <a href="#definition-templateId"> templateId </a>
           <a href="#definition-templateData"> templateData </a>
           <a href="#definition-templateList"> templateList </a>
+          <a href="#definition-extendedTemplateList"> extendedTemplateList </a>
           <a href="#definition-templateUpload"> templateUpload </a>
           <a href="#definition-templateObject"> templateObject </a>
+          <a href="#definition-extendedTemplateObject"> extendedTemplateObject </a>
           <a href="#definition-ErrorResponse"> ErrorResponse </a>
         </nav>
       </div>
@@ -224,7 +226,8 @@
   <span class="hljs-attr">&quot;certificant&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
   <span class="hljs-attr">&quot;laudatio&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
   <span class="hljs-attr">&quot;certificationDate&quot;</span>: <span class="hljs-string">&quot;string (date)&quot;</span>,
-  <span class="hljs-attr">&quot;certificationPlace&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
+  <span class="hljs-attr">&quot;certificationPlace&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+  <span class="hljs-attr">&quot;additionalInputs&quot;</span>: <span class="hljs-string">&quot;object&quot;</span>
 }
 </code></pre>
                   <!-- </div> -->
@@ -575,7 +578,7 @@
                       <div class="prop-title">200 OK</div>
                       <div class="prop-ref">
                         <span class="">
-                          <a class="json-schema-ref" href="#/definitions/templateList">templateList</a>
+                          <a class="json-schema-ref" href="#/definitions/extendedTemplateList">extendedTemplateList</a>
                         </span>
                       </div>
                       <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
@@ -600,7 +603,8 @@
       <span class="hljs-string">&quot;string&quot;</span>
     ],
     <span class="hljs-attr">&quot;previewHTML&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
-    <span class="hljs-attr">&quot;previewImage&quot;</span>: <span class="hljs-string">&quot;string (binary)&quot;</span>
+    <span class="hljs-attr">&quot;previewImage&quot;</span>: <span class="hljs-string">&quot;string (binary)&quot;</span>,
+    <span class="hljs-attr">&quot;executions&quot;</span>: <span class="hljs-string">&quot;number&quot;</span>
   }
 ]
 </code></pre>
@@ -989,7 +993,7 @@
                       <div class="prop-title">200 OK</div>
                       <div class="prop-ref">
                         <span class="">
-                          <a class="json-schema-ref" href="#/definitions/templateList">templateList</a>
+                          <a class="json-schema-ref" href="#/definitions/extendedTemplateList">extendedTemplateList</a>
                         </span>
                       </div>
                       <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
@@ -1014,7 +1018,8 @@
       <span class="hljs-string">&quot;string&quot;</span>
     ],
     <span class="hljs-attr">&quot;previewHTML&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
-    <span class="hljs-attr">&quot;previewImage&quot;</span>: <span class="hljs-string">&quot;string (binary)&quot;</span>
+    <span class="hljs-attr">&quot;previewImage&quot;</span>: <span class="hljs-string">&quot;string (binary)&quot;</span>,
+    <span class="hljs-attr">&quot;executions&quot;</span>: <span class="hljs-string">&quot;number&quot;</span>
   }
 ]
 </code></pre>
@@ -1281,6 +1286,11 @@
                       <span class="json-property-range" title="Value limits"></span>
                       <span class="json-property-default-value" title="Default value">Internet</span>
                     </dt>
+                    <dt data-property-name="additionalInputs">
+                      <span class="json-property-name">additionalInputs:</span>
+                      <span class="json-property-type">object</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
                   </dl>
                 </section>
               </div>
@@ -1293,7 +1303,8 @@
   <span class="hljs-attr">&quot;certificant&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
   <span class="hljs-attr">&quot;laudatio&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
   <span class="hljs-attr">&quot;certificationDate&quot;</span>: <span class="hljs-string">&quot;string (date)&quot;</span>,
-  <span class="hljs-attr">&quot;certificationPlace&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
+  <span class="hljs-attr">&quot;certificationPlace&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+  <span class="hljs-attr">&quot;additionalInputs&quot;</span>: <span class="hljs-string">&quot;object&quot;</span>
 }
 </code></pre>
                   <!-- </div> -->
@@ -1338,6 +1349,52 @@
     ],
     <span class="hljs-attr">&quot;previewHTML&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
     <span class="hljs-attr">&quot;previewImage&quot;</span>: <span class="hljs-string">&quot;string (binary)&quot;</span>
+  }
+]
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="definition-extendedTemplateList" class="definition panel" data-traverse-target="definition-extendedTemplateList">
+            <h2 class="panel-title">
+              <a name="/definitions/extendedTemplateList"></a>extendedTemplateList: array
+              <!-- <span class="json-property-type"><span class="json-property-type">  <span class="json-schema-ref-array">
+                  <a class="json-schema-ref" href="#/definitions/extendedTemplateObject">extendedTemplateObject</a>
+                </span>
+              </span>
+              <span class="json-property-range" title="Value limits"></span>
+              
+              
+              </span> -->
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="json-schema-array-items">
+                  <span class="json-property-type">
+                    <span class="">
+                      <a class="json-schema-ref" href="#/definitions/extendedTemplateObject">extendedTemplateObject</a>
+                    </span>
+                  </span>
+                  <span class="json-property-range" title="Value limits"></span>
+                  <div class="json-inner-schema"> </div>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Example</h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">[
+  {
+    <span class="hljs-attr">&quot;templateId&quot;</span>: <span class="hljs-string">&quot;string (uuid)&quot;</span>,
+    <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+    <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+    <span class="hljs-attr">&quot;inputFields&quot;</span>: [
+      <span class="hljs-string">&quot;string&quot;</span>
+    ],
+    <span class="hljs-attr">&quot;previewHTML&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+    <span class="hljs-attr">&quot;previewImage&quot;</span>: <span class="hljs-string">&quot;string (binary)&quot;</span>,
+    <span class="hljs-attr">&quot;executions&quot;</span>: <span class="hljs-string">&quot;number&quot;</span>
   }
 ]
 </code></pre>
@@ -1489,6 +1546,91 @@
   ],
   <span class="hljs-attr">&quot;previewHTML&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
   <span class="hljs-attr">&quot;previewImage&quot;</span>: <span class="hljs-string">&quot;string (binary)&quot;</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="definition-extendedTemplateObject" class="definition panel" data-traverse-target="definition-extendedTemplateObject">
+            <h2 class="panel-title">
+              <a name="/definitions/extendedTemplateObject"></a>extendedTemplateObject: object
+              <!-- <span class="json-property-type"><span class="json-property-type">object</span>
+              <span class="json-property-range" title="Value limits"></span>
+              
+              
+              </span> -->
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="json-schema-properties">
+                  <dl>
+                    <dt data-property-name="templateId">
+                      <span class="json-property-name">templateId:</span>
+                      <span class="json-property-type">string</span>
+                      <span class="json-property-format">(uuid)</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                    <dt data-property-name="name">
+                      <span class="json-property-name">name:</span>
+                      <span class="json-property-type">string</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                    <dt data-property-name="description">
+                      <span class="json-property-name">description:</span>
+                      <span class="json-property-type">string</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                    <dt data-property-name="inputFields">
+                      <span class="json-property-name">inputFields:</span>
+                      <span class="json-property-type">string[]</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                    <dt class="json-inner-schema">
+                      <section class="json-schema-array-items">
+                        <span class="json-property-type">string</span>
+                        <span class="json-property-range" title="Value limits"></span>
+                        <div class="json-inner-schema"> </div>
+                      </section>
+                    </dt>
+                    <dt data-property-name="previewHTML">
+                      <span class="json-property-name">previewHTML:</span>
+                      <span class="json-property-type">string</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                    <dt data-property-name="previewImage">
+                      <span class="json-property-name">previewImage:</span>
+                      <span class="json-property-type">string</span>
+                      <span class="json-property-format">(binary)</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                    <dt data-property-name="executions">
+                      <span class="json-property-name">executions:</span>
+                      <span class="json-property-type">number</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                  </dl>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Example</h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;templateId&quot;</span>: <span class="hljs-string">&quot;string (uuid)&quot;</span>,
+  <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+  <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+  <span class="hljs-attr">&quot;inputFields&quot;</span>: [
+    <span class="hljs-string">&quot;string&quot;</span>
+  ],
+  <span class="hljs-attr">&quot;previewHTML&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+  <span class="hljs-attr">&quot;previewImage&quot;</span>: <span class="hljs-string">&quot;string (binary)&quot;</span>,
+  <span class="hljs-attr">&quot;executions&quot;</span>: <span class="hljs-string">&quot;number&quot;</span>
 }
 </code></pre>
                   <!-- </div> -->
