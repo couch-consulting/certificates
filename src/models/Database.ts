@@ -1,8 +1,9 @@
 'use strict';
 
 import * as Cloudant from '@cloudant/cloudant';
-import { templateList, templateObject, templateUpload, templateData } from './Interfaces';
+import { templateList, templateObject, templateUpload, templateData, extendedTemplateObject, extendedTemplateList } from './Interfaces';
 import { resolve } from 'dns';
+import * as uuid from 'uuid';
 
 interface CloudantCredentials {
   username: string;
@@ -79,7 +80,9 @@ export default class Database {
    */
   public deleteTemplate(templateId: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
+      // Cloudant needs the revision of the object to be worked on.
       this.templates.get(templateId).then((data) => {
+        // Delete the template with the given id and revision
         this.templates.destroy(templateId, data.rev).then((data) => {
           console.log(data);
           resolve(true);
@@ -94,4 +97,41 @@ export default class Database {
     });
   }
 
+  /**
+   * Updates the template with the given id.
+   * @param templateId: UUID of the template to update
+   * @param templateData: Dataset to replace the old data
+   * @return Promise with a boolean stating success or failure.
+   */
+  public updateTemplate(templateId: string, templateData: templateUpload): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      templateData['_id'] = templateId;
+      this.templates.insert(templateData).then((data) => {
+        console.log(data);
+        resolve(true);
+      }).catch((err) => {
+        console.log(err);
+        reject(false);
+      });
+    });
+  }
+
+  /**
+   * Creates the template with given data.
+   * @param templateData: Dataset of the new template
+   * @return Promise with a boolean stating success or failure.
+   */
+  public uploadTemplate(templateData: templateUpload): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      // In the end an upload is nothing but an update.
+      // We just have to generate an id first
+      const templateId: string = uuid.v4();
+      templateData['templateId'] = templateId;
+      this.updateTemplate(templateId, templateData).then((success) => {
+        resolve(true);
+      }).catch((err) => {
+        reject(false);
+      });
+    });
+  }
 }

@@ -175,7 +175,7 @@
         parameters:
           - in: "path"
             name: "templateId"
-            description: "ID of the template to be updated"
+            description: "ID of the template to be deleted"
             required: true
             type: string
             format: "uuid"

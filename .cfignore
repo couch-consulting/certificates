@@ -3,3 +3,4 @@ src/*
 gulpfile.js
 tsconfig.json
 tslint.json
+node_modules

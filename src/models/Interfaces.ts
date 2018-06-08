@@ -17,28 +17,17 @@ export interface extendedTemplateList extends Array<extendedTemplateObject> {
 /**
  * A single template as it returned to the user
  */
-export interface templateObject {
+export interface templateObject extends templateUpload {
   templateId: string;
-  name: string;
-  description: string;
-  inputFields: string[];
-  previewHTML: string;
-  previewImage: string;
 }
 
 
 /**
  * A single template as it is stored in the database
  */
-export interface extendedTemplateObject {
+export interface extendedTemplateObject extends templateObject {
   _id: string;
   _rev: string;
-  templateId: string;
-  name: string;
-  description: string;
-  inputFields: string[];
-  previewHTML: string;
-  previewImage: string;
   executions: number;
 }
 

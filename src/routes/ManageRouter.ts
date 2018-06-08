@@ -20,6 +20,11 @@ export class ManagementRouter {
    * POST upload a new template
    */
   public uploadTemplate(req: Request, res: Response, next: NextFunction) {
+    this.database.uploadTemplate(req.body).then((data: boolean) => {
+      res.sendStatus(200);
+    }).catch((err: boolean) => {
+      res.sendStatus(404);
+    });
   }
 
   /**
@@ -40,6 +45,11 @@ export class ManagementRouter {
    * PUT update the given template
    */
   public updateTemplate(req: Request, res: Response, next: NextFunction) {
+    this.database.updateTemplate(req.params.templateId, req.body).then((data: boolean) => {
+      res.sendStatus(200);
+    }).catch((err: boolean) => {
+      res.sendStatus(404);
+    });
   }
 
   /**
