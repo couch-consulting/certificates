@@ -15,7 +15,7 @@
       </mat-card-content>
 
       <mat-card-actions fxLayoutAlign="space-evenly center">
-        <button mat-raised-button class="button" color="primary" (click)="chooseCertificate(previewCertf)" fxFlex>Use this!</button>
+        <button mat-raised-button class="button" color="primary" routerLink="/selected/{{previewCertf.templateId}}" fxFlex>Use this!</button>
       </mat-card-actions>
 
     </mat-card>

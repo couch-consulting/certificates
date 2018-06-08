@@ -10,13 +10,15 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './/app-routing.module';
 import {CertfdataService} from './services/certfdata.service';
 import { HomeComponent } from './components/home/home.component';
+import { SelectedComponent } from './components/selected/selected.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ContentCardsComponent,
-    HomeComponent
+    HomeComponent,
+    SelectedComponent
   ],
   imports: [
     BrowserModule,

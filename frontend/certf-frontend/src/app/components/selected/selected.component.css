@@ -1,0 +1,31 @@
+.Input-Card, .HTML-Card{
+  min-width: 48%;
+  max-width: 48%;
+  width: 48%;
+  margin: 0.5%;
+
+
+}
+
+.Detail-Card{
+  margin: 0.5%;
+
+}
+
+.container{
+  min-width: fit-content;
+  margin-bottom: 10px;
+}
+
+.mat-card-title{
+  font-size: large;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-container > * {
+  width: 100%;
+}

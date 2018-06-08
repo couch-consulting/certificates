@@ -1,0 +1,93 @@
+<div class="container" fxLayout="row warp" fxLayoutAlign="space-evenly center">
+  <mat-card fxFlex class="Input-Card">
+    <mat-card-header>
+      <mat-card-title class="mat-card-title">Serious Inputs</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+
+
+    <div class="input-container">
+
+      <mat-form-field>
+        <input matInput placeholder="Certifier" required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Certificant" required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Laudatio" required>
+      </mat-form-field>
+
+      <mat-form-field>
+      <input matInput [matDatepicker]="picker" placeholder="Date of certification">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Place of certification">
+      </mat-form-field>
+
+      <mat-form-field *ngFor="let inputName of previewCertf.inputFields">
+        <input matInput placeholder="{{inputName}}">
+      </mat-form-field>
+
+
+
+
+    </div>
+
+
+    </mat-card-content>
+
+    <mat-card-actions fxLayoutAlign="space-evenly center">
+      <button mat-raised-button class="button" color="primary" fxFlex>Get TODO</button>
+    </mat-card-actions>
+
+
+  </mat-card>
+
+
+  <mat-card fxFlex class="HTML-Card">
+    zusätzliche inputs nicht vergesen + binding
+    <mat-card-header>
+      <mat-card-title class="mat-card-title">Preview HTML</mat-card-title>
+    </mat-card-header>
+
+
+    <mat-card-content>
+      <div>
+        HTML
+      </div>
+    </mat-card-content>
+
+
+  </mat-card>
+
+</div>
+
+<mat-card fxFlex class="Detail-Card">
+
+  <mat-card-header>
+    <mat-card-title class="mat-card-title">Serious Information about this Certificate</mat-card-title>
+  </mat-card-header>
+
+
+  <mat-card-content>
+    <div>
+      Description, Name
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions fxLayoutAlign="space-evenly center">
+    <button mat-raised-button class="button" color="primary" fxFlex (click)="goBack()">No, this on is not serious
+      enough!
+    </button>
+  </mat-card-actions>
+
+
+</mat-card>
+
+

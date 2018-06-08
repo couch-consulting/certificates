@@ -16,12 +16,10 @@ export class ContentCardsComponent implements OnInit {
     this.getCertfdata();
   }
 
-  chooseCertificate(previewCertf) {
-    console.log('' + previewCertf.name);
-  }
+
 
   getCertfdata(): void {
-    this.certfdataService.getHeroes().subscribe(previewCertfs => this.previewCertfs = previewCertfs);
+    this.certfdataService.getCertfs().subscribe(previewCertfs => this.previewCertfs = previewCertfs);
   }
 
 }
