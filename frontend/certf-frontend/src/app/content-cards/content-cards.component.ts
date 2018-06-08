@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PreviewCertf} from '../classes/preview-certf';
-import {MOCKPREVIEW} from '../classes/mock-previewCertf'
+import {CertfdataService} from '../services/certfdata.service';
 
 @Component({
   selector: 'app-content-card',
@@ -8,17 +8,20 @@ import {MOCKPREVIEW} from '../classes/mock-previewCertf'
   styleUrls: ['./content-cards.component.css']
 })
 export class ContentCardsComponent implements OnInit {
-  previewCertfs = MOCKPREVIEW;
+  previewCertfs: PreviewCertf[];
 
-  //TODO: flex warp für tob bar, max + min height für windows
-
-  constructor() { }
+  constructor(private certfdataService: CertfdataService) { }
 
   ngOnInit() {
+    this.getCertfdata();
   }
 
-
-    chooseCertificate(){
-    console.log("test");
+  chooseCertificate(previewCertf) {
+    console.log('' + previewCertf.name);
   }
+
+  getCertfdata(): void {
+    this.certfdataService.getHeroes().subscribe(previewCertfs => this.previewCertfs = previewCertfs);
+  }
+
 }

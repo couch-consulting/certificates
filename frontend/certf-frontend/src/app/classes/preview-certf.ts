@@ -1,4 +1,4 @@
-export class PreviewCertf{
+export class PreviewCertf {
 
   name: string;
   description: string;
