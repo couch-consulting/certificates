@@ -3,7 +3,7 @@
 import Database from '../models/Database';
 import { Router, Request, Response, NextFunction } from 'express';
 import { json } from 'body-parser';
-import { templateList, templateData, TaskId } from '../models/Interfaces';
+import { templateList, templateData, TaskId, extendedTemplateObject } from '../models/Interfaces';
 
 export class TemplateRouter {
   router: Router;
@@ -55,6 +55,20 @@ export class TemplateRouter {
     });
   }
 
+  /**
+   * Get the user visible data for one specific template
+   */
+  public getTemplate(req: Request, res: Response, next: NextFunction) {
+    this.database.getTemplate(req.params.templateId).then((template: extendedTemplateObject) => {
+      delete template._id;
+      delete template._rev;
+      delete template.executions;
+      res.send(template);
+    }).catch(() => {
+      res.send(404);
+    });
+  }
+
 
   /**
    * Take each handler, and attach to one of the Express.Router's
@@ -62,6 +76,7 @@ export class TemplateRouter {
    */
   init() {
     this.router.get('/', this.getTemplates.bind(this));
+    this.router.get('/:templateId', this.getTemplate.bind(this));
     this.router.post('/', this.createCertificate.bind(this));
   }
 

@@ -15,10 +15,10 @@ interface CloudantCredentials {
 }
 
 export default class Database {
-  credentials : CloudantCredentials;
-  client: any;
-  templates: any;
-  workItems: any;
+  private credentials : CloudantCredentials;
+  private client: any;
+  private templates: any;
+  private workItems: any;
 
   /**
    * Initialize the database connection
@@ -169,11 +169,7 @@ export default class Database {
     return new Promise((resolve, reject) => {
       this.templates.get(templateId).then((document) => {
         console.log(document._id);
-        if (document._id !== undefined) {
-          resolve(true);
-        } else {
-          reject(false);
-        }
+        resolve(true);
       }).catch((err) => {
         console.log(err);
         reject(false);
@@ -194,6 +190,38 @@ export default class Database {
     return new Promise((resolve, reject) => {
       this.workItems.insert(workItem).then((ret) => {
         resolve(<string> ret.id);
+      }).catch((err) => {
+        console.log(err);
+        reject(err);
+      });
+    });
+  }
+
+  /**
+   * Returns the data of a specific work item
+   * @param taskId the id of a task to be done
+   * @return Promise with either the data for this task or an error
+   */
+  public getWorkItem(taskId: string): Promise<templateData | Error> {
+    return new Promise((resolve, reject) => {
+      this.workItems.get(taskId).then((doc: templateData) => {
+        resolve(doc);
+      }).catch((err) => {
+        console.log(err);
+        reject(err);
+      });
+    });
+  }
+
+  /**
+   * Returns the data of one specific template
+   * @param templateId the id of the template to retrieve
+   * @return Promise with either the data for this template or an error
+   */
+  public getTemplate(templateId: string): Promise<extendedTemplateObject | Error> {
+    return new Promise((resolve, reject) => {
+      this.templates.get(templateId).then((doc: extendedTemplateObject) => {
+        resolve(doc);
       }).catch((err) => {
         console.log(err);
         reject(err);
