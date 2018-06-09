@@ -4,6 +4,7 @@
   width: 23%;
   margin: 0.5%;
 
+
   -webkit-transition: background-color 500ms ease-out 25ms, min-width 200ms, max-width 200ms, width 200ms;
   -moz-transition: background-color 500ms ease-out 25ms, min-width 200ms, max-width 200ms, width 200ms;
   -o-transition: background-color 500ms ease-out 25ms, min-width 200ms, max-width 200ms, width 200ms;

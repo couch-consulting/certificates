@@ -1,4 +1,6 @@
-<div class="container" fxLayout="row warp" fxLayoutAlign="space-evenly center">
+
+
+<div class="container" fxFlex fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-evenly center">
   <mat-card fxFlex class="Input-Card">
     <mat-card-header>
       <mat-card-title class="mat-card-title">Serious Inputs</mat-card-title>
@@ -9,34 +11,30 @@
     <div class="input-container">
 
       <mat-form-field>
-        <input matInput placeholder="Certifier" required>
+        <input matInput placeholder="Certifier" required (keyup)="onKey($event,'certifier')">
       </mat-form-field>
 
       <mat-form-field>
-        <input matInput placeholder="Certificant" required>
+        <input matInput placeholder="Certificant" required (keyup)="onKey($event,'certificant')">
       </mat-form-field>
 
       <mat-form-field>
-        <input matInput placeholder="Laudatio" required>
+        <input matInput placeholder="Laudatio" required (keyup)="onKey($event,'laudatio')">
       </mat-form-field>
 
       <mat-form-field>
-      <input matInput [matDatepicker]="picker" placeholder="Date of certification">
+      <input matInput [matDatepicker]="picker" placeholder="Date of certification" (keyup)="onKey($event,'certificationDate')">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
+      <mat-datepicker #picker (selectedChanged)="update($event)"></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field>
-        <input matInput placeholder="Place of certification">
+        <input matInput placeholder="Place of certification" (keyup)="onKey($event,'certificationPlace')">
       </mat-form-field>
 
       <mat-form-field *ngFor="let inputName of previewCertf.inputFields">
         <input matInput placeholder="{{inputName}}">
       </mat-form-field>
-
-
-
-
     </div>
 
 
@@ -51,15 +49,13 @@
 
 
   <mat-card fxFlex class="HTML-Card">
-    zusätzliche inputs nicht vergesen + binding
-    <mat-card-header>
+       <mat-card-header>
       <mat-card-title class="mat-card-title">Preview HTML</mat-card-title>
     </mat-card-header>
 
 
     <mat-card-content>
-      <div>
-        HTML
+      <div id="1">
       </div>
     </mat-card-content>
 
@@ -74,20 +70,21 @@
     <mat-card-title class="mat-card-title">Serious Information about this Certificate</mat-card-title>
   </mat-card-header>
 
-
   <mat-card-content>
-    <div>
-      Description, Name
-    </div>
+    <h4>Name</h4>
+    <p>{{previewCertf.name}}</p>
+    <h4>Description</h4>
+    <p>{{previewCertf.description}}</p>
   </mat-card-content>
 
   <mat-card-actions fxLayoutAlign="space-evenly center">
-    <button mat-raised-button class="button" color="primary" fxFlex (click)="goBack()">No, this on is not serious
+    <button mat-raised-button class="button" color="primary" fxFlex (click)="goBack()">No, this one is not serious
       enough!
     </button>
   </mat-card-actions>
 
 
 </mat-card>
+
 
 

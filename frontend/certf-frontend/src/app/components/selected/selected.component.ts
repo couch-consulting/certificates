@@ -14,15 +14,31 @@ import {PreviewCertfData} from "../../classes/preview-certf_Data";
 export class SelectedComponent implements OnInit {
   previewCertf: PreviewCertf;
 
+  certifier: string;
+  certificant: string;
+  laudatio: string;
+  certificationDate: string;
+  certificationPlace: string;
+  additionalInputs = [];
+
+  test: HTMLObjectElement;
+
   constructor(private route: ActivatedRoute,
               private certfdataService: CertfdataService,
               private location: Location) {
-
-  }
+    }
 
   ngOnInit() {
     this.getCertfdata();
+    this.certifier = '';
+    this.certificant = '';
+    this.laudatio = '';
+    this.certificationDate = '';
+    this.certificationPlace = '';
+    //TODO function for addtional inputs
 
+
+    this.addMarkup();
   }
 
 
@@ -38,4 +54,39 @@ export class SelectedComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
+
+  onKey(event: any, input: string) {
+    switch(input) {
+      case 'certifier':
+        this.certifier = event.target.value;
+        break;
+      case 'certificant':
+        this.certificant = event.target.value;
+        break;
+      case 'laudatio':
+        this.laudatio = event.target.value;
+        break;
+      case 'certificationDate':
+        this.certificationDate = event.target.value;
+        break;
+      case 'certificationPlace':
+        this.certificationPlace = event.target.value;
+        break;
+      default:
+       //TODO für additonal input
+    }
+
+  }
+
+
+  update(event: any){
+    this.certificationDate = (<Date>event).toLocaleDateString();
+  }
+
+  addMarkup(){
+    let el = document.createElement( 'div' );
+    el.innerHTML = this.previewCertf.previewHTML;
+    document.getElementById("1").appendChild(el);
+  }
 }
+
