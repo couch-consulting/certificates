@@ -57,9 +57,9 @@
               $ref: "#/definitions/templateData"
         responses:
           201:
-            description: "New template ID"
+            description: "New task ID"
             schema:
-              $ref: "#/definitions/templateId"
+              $ref: "#/definitions/taskId"
           400:
             description: "Invalid format"
       get:
@@ -195,6 +195,14 @@
         - templateId
       properties:
         templateId:
+          type: "string"
+          format: "uuid"
+
+    taskId:
+      required:
+        - taskId
+      properties:
+        taskId:
           type: "string"
           format: "uuid"
 

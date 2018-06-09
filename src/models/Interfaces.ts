@@ -54,3 +54,9 @@ export interface templateData {
   certificationPlace: string;
 }
 
+/**
+ * A task id of a template generation process
+ */
+export class TaskId {
+  taskId: string;
+}

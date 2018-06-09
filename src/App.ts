@@ -5,6 +5,7 @@ import * as bodyParser from 'body-parser';
 import CertifyRouter from './routes/CertifyRouter';
 import TemplateRouter from './routes/TemplateRouter';
 import ManageRouter from './routes/ManageRouter';
+import RenderRouter from './routes/RenderRouter';
 
 // Creates and configures an ExpressJS web server.
 class App {
@@ -40,7 +41,7 @@ class App {
     this.express.use('/certify', CertifyRouter);
     this.express.use('/templates', TemplateRouter);
     this.express.use('/management', ManageRouter);
-
+    this.express.use('/generateTemplate', RenderRouter);
   }
 
 }

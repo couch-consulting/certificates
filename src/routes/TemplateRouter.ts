@@ -3,7 +3,7 @@
 import Database from '../models/Database';
 import { Router, Request, Response, NextFunction } from 'express';
 import { json } from 'body-parser';
-import { templateList } from '../models/Interfaces';
+import { templateList, templateData, TaskId } from '../models/Interfaces';
 
 export class TemplateRouter {
   router: Router;
@@ -23,6 +23,18 @@ export class TemplateRouter {
    * POST data for a new certificate
    */
   public createCertificate(req: Request, res: Response, next: NextFunction) {
+    const input: templateData = req.body;
+    this.database.checkTemplateId(input.templateId).then(() => {
+      this.database.addWorkItem(input).then((taskId: string) => {
+        const response: TaskId = new TaskId();
+        response.taskId = taskId;
+        res.send(response);
+      }).catch(() => {
+        res.sendStatus(400);
+      });
+    }).catch(() => {
+      res.sendStatus(404);
+    });
   }
 
   /**
