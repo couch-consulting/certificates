@@ -60,3 +60,10 @@ export interface templateData {
 export class TaskId {
   taskId: string;
 }
+
+/**
+ * A template id of a newly created template
+ */
+export class TemplateId {
+  templateId: string;
+}

@@ -25,14 +25,20 @@ export class TemplateRouter {
   public createCertificate(req: Request, res: Response, next: NextFunction) {
     const input: templateData = req.body;
     this.database.checkTemplateId(input.templateId).then(() => {
+      console.log('Successfully found template');
       this.database.addWorkItem(input).then((taskId: string) => {
         const response: TaskId = new TaskId();
         response.taskId = taskId;
+        console.log(response);
         res.send(response);
-      }).catch(() => {
+      }).catch((err) => {
+        console.log('Creation failed');
+        res.statusMessage = err;
         res.sendStatus(400);
       });
     }).catch(() => {
+      console.log('Couldn\'t find template id');
+      res.statusMessage = 'Invalid template id';
       res.sendStatus(404);
     });
   }

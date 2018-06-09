@@ -1,7 +1,7 @@
 import Database from '../models/Database';
 import { Router, Request, Response, NextFunction } from 'express';
 import { json } from 'body-parser';
-import { extendedTemplateList } from '../models/Interfaces';
+import { extendedTemplateList, TemplateId } from '../models/Interfaces';
 
 export class ManagementRouter {
   router: Router;
@@ -20,10 +20,11 @@ export class ManagementRouter {
    * POST upload a new template
    */
   public uploadTemplate(req: Request, res: Response, next: NextFunction) {
-    this.database.uploadTemplate(req.body).then((data: boolean) => {
-      res.sendStatus(200);
-    }).catch((err: boolean) => {
-      res.sendStatus(404);
+    console.log(req.body);
+    this.database.uploadTemplate(req.body).then((templateId: TemplateId) => {
+      res.send(templateId);
+    }).catch((err: number) => {
+      res.sendStatus(err);
     });
   }
 
@@ -37,7 +38,6 @@ export class ManagementRouter {
       res.send(data);
     }).catch((err: null) => {
       res.sendStatus(500);
-      res.end();
     });
   }
 
@@ -45,10 +45,12 @@ export class ManagementRouter {
    * PUT update the given template
    */
   public updateTemplate(req: Request, res: Response, next: NextFunction) {
-    this.database.updateTemplate(req.params.templateId, req.body).then((data: boolean) => {
-      res.sendStatus(200);
-    }).catch((err: boolean) => {
-      res.sendStatus(404);
+    console.log(req.params.templateId);
+    console.log(req.body);
+    this.database.updateTemplate(req.params.templateId, req.body).then((success: number) => {
+      res.sendStatus(success);
+    }).catch((err: number) => {
+      res.sendStatus(err);
     });
   }
 
