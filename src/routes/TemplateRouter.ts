@@ -60,6 +60,7 @@ export class TemplateRouter {
    */
   public getTemplate(req: Request, res: Response, next: NextFunction) {
     this.database.getTemplate(req.params.templateId).then((template: extendedTemplateObject) => {
+      // Remove management information
       delete template._id;
       delete template._rev;
       delete template.executions;
@@ -82,7 +83,7 @@ export class TemplateRouter {
 
 }
 
-// Create the HeroRouter, and export its configured Express.Router
+// Create the router and export its configured Express.Router
 const templateRoutes = new TemplateRouter();
 templateRoutes.init();
 
