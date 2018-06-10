@@ -90,7 +90,7 @@ export class ManagementRouter {
 }
 
 // Create the router and export its configured Express.Router
-const managementRoutes = new ManagementRouter();
+export const managementRoutes = new ManagementRouter();
 managementRoutes.init();
 
 export default managementRoutes.router;

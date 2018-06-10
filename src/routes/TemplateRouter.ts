@@ -84,7 +84,7 @@ export class TemplateRouter {
 }
 
 // Create the router and export its configured Express.Router
-const templateRoutes = new TemplateRouter();
+export const templateRoutes = new TemplateRouter();
 templateRoutes.init();
 
 export default templateRoutes.router;

@@ -101,7 +101,7 @@ export class RenderRouter {
 }
 
 // Create the router and export its configured Express.Router
-const renderRoute = new RenderRouter();
+export const renderRoute = new RenderRouter();
 renderRoute.init();
 
 export default renderRoute.router;
