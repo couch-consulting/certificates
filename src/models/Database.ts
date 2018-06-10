@@ -101,6 +101,7 @@ export default class Database {
           reject(500);
         });
       }).catch((err) => {
+        console.log(err);
         reject(404);
       });
     });
@@ -120,14 +121,12 @@ export default class Database {
         templateData['_id'] = templateId;
         templateData['_rev'] = document._rev;
         templateData['executions'] = document.executions;
+        templateData['templateId'] = templateId;
         this.templates.insert(templateData).then((data) => {
-          // dbDebug(data);
-          console.log(data);
           resolve(200);
         }).catch((err) => {
           // Something on the server side went wrong
           console.log(err);
-          // dbDebug(err);
           reject(500);
         });
       }).catch((err) => {
@@ -168,7 +167,6 @@ export default class Database {
   public checkTemplateId(templateId: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.templates.get(templateId).then((document) => {
-        console.log(document._id);
         resolve(true);
       }).catch((err) => {
         console.log(err);

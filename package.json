@@ -4,7 +4,7 @@
   "description": "The storage api worker of the certification project",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -r ts-node/register src/tests/*.ts",
+    "test": "mocha -r ts-node/register test/*.ts",
     "build": "gulp build",
     "build:spectacle": "spectacle -t ../certification-docs/ swagger/swagger.yaml",
     "lint": "tslint src/**/*.ts src/*.ts",

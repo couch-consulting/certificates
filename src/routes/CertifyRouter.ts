@@ -49,6 +49,6 @@ export class CertifyRouter {
 
 // Create the router and export its configured Express.Router
 export const certifyRoutes = new CertifyRouter();
-certifyRoutes.init();
+// certifyRoutes.init();
 
 export default certifyRoutes.router;

@@ -52,6 +52,7 @@ export interface templateData {
   laudatio: string;
   certificationDate: Date;
   certificationPlace: string;
+  additionalInputs: Object;
 }
 
 /**
