@@ -3,7 +3,17 @@
     "noImplicitAny": false,
     "target": "es2015",
     "moduleResolution": "node",
+    "removeComments": true,
     "module": "commonjs",
     "types": [ "node", "mocha", "chai" ]
-  }
+  },
+  "include": [
+    "src/routes/*.ts",
+    "src/models/*.ts",
+    "src/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "src/test/*.ts"
+  ]
 }

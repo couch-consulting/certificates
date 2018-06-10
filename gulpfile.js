@@ -83,5 +83,5 @@ var codeDocumentation = gulp.series(generateDocumentation);
 
 // Common task definition
 
-gulp.task('build', gulp.series(clean, codeValidation, codeTesting, gulp.parallel(codeCompilation, codeDocumentation)));
+gulp.task('build', gulp.series(clean, codeValidation, gulp.parallel(codeCompilation, codeDocumentation)));
 gulp.task('default', gulp.series('build'));
