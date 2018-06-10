@@ -1,7 +1,8 @@
 'use strict';
 
 import * as Cloudant from '@cloudant/cloudant';
-import { templateList, templateObject, templateUpload, templateData, extendedTemplateObject, extendedTemplateList } from './Interfaces';
+import * as dbDebug from 'debug';
+import { templateList, templateObject, templateUpload, templateData, extendedTemplateObject, extendedTemplateList, TemplateId } from './Interfaces';
 import { resolve } from 'dns';
 import * as uuid from 'uuid';
 
@@ -14,9 +15,10 @@ interface CloudantCredentials {
 }
 
 export default class Database {
-  credentials : CloudantCredentials;
-  client: any;
-  templates: any;
+  private credentials : CloudantCredentials;
+  private client: any;
+  private templates: any;
+  private workItems: any;
 
   /**
    * Initialize the database connection
@@ -38,13 +40,22 @@ export default class Database {
     // Enable the promises plugin
     this.credentials['plugins'] = ['promises'];
     this.client = Cloudant(this.credentials);
+
+    // Create templates and workItems databases, if they do not exist
     (this.client.db.create('templates') as any).then(() => {
-      console.log('Created database');
+      dbDebug('Created database templates');
     }).catch((err) => {
-      console.log('Database already exists');
+      dbDebug('Database templates already exists');
+    });
+
+    (this.client.db.create('workitems') as any).then(() => {
+      dbDebug('Created database workitems');
+    }).catch((err) => {
+      dbDebug('Database workitems already exists');
     });
 
     this.templates = this.client.db.use('templates');
+    this.workItems = this.client.db.use('workitems');
   }
 
   /**
@@ -76,23 +87,21 @@ export default class Database {
   /**
    * Deletes a template with a given ID
    * @param templateId the uuid of the template to delete
-   * @return Promise of the success of the operation
+   * @return Promise returning http response codes
    */
-  public deleteTemplate(templateId: string): Promise<boolean> {
+  public deleteTemplate(templateId: string): Promise<number> {
     return new Promise((resolve, reject) => {
       // Cloudant needs the revision of the object to be worked on.
       this.templates.get(templateId).then((data) => {
         // Delete the template with the given id and revision
-        this.templates.destroy(templateId, data.rev).then((data) => {
-          console.log(data);
-          resolve(true);
+        this.templates.destroy(templateId, data._rev).then((data) => {
+          resolve(200);
         }).catch((err) => {
           console.log(err);
-          reject(false);
+          reject(500);
         });
       }).catch((err) => {
-        console.log(err);
-        reject(false);
+        reject(404);
       });
     });
   }
@@ -101,13 +110,65 @@ export default class Database {
    * Updates the template with the given id.
    * @param templateId: UUID of the template to update
    * @param templateData: Dataset to replace the old data
-   * @return Promise with a boolean stating success or failure.
+   * @return Promise with a http response code
    */
-  public updateTemplate(templateId: string, templateData: templateUpload): Promise<boolean> {
+  public updateTemplate(templateId: string, templateData: templateUpload): Promise<number> {
     return new Promise((resolve, reject) => {
-      templateData['_id'] = templateId;
-      this.templates.insert(templateData).then((data) => {
-        console.log(data);
+      // For an update we need the latest revision of the object to be updated.
+      // At the same time we can check whether the template actually exists
+      this.templates.get(templateId).then((document) => {
+        templateData['_id'] = templateId;
+        templateData['_rev'] = document._rev;
+        templateData['executions'] = document.executions;
+        this.templates.insert(templateData).then((data) => {
+          // dbDebug(data);
+          console.log(data);
+          resolve(200);
+        }).catch((err) => {
+          // Something on the server side went wrong
+          console.log(err);
+          // dbDebug(err);
+          reject(500);
+        });
+      }).catch((err) => {
+        // The template id doesn't exist
+        reject(400);
+      });
+    });
+  }
+
+  /**
+   * Creates the template with given data.
+   * @param templateData: Dataset of the new template
+   * @return Promise with the template id or htp response code
+   */
+  public uploadTemplate(templateData: templateUpload): Promise<TemplateId | number> {
+    return new Promise((resolve, reject) => {
+      // We have to generate an id first
+      const templateId: TemplateId = new TemplateId();
+      templateId.templateId = uuid.v4();
+      templateData['templateId'] = templateId.templateId;
+      templateData['_id'] = templateId.templateId;
+      templateData['executions'] = 0;
+      this.templates.insert(templateData).then((success) => {
+        resolve(templateId);
+      }).catch((err) => {
+        console.log(err);
+        reject(500);
+      });
+    });
+  }
+
+  /**
+   * Check whether an entered template id exists
+   * @param templateId the id of a template the user chose
+   * @return Promise stating either the existence or absense
+   * of the chosen template
+   */
+  public checkTemplateId(templateId: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.templates.get(templateId).then((document) => {
+        console.log(document._id);
         resolve(true);
       }).catch((err) => {
         console.log(err);
@@ -116,22 +177,68 @@ export default class Database {
     });
   }
 
+
   /**
-   * Creates the template with given data.
-   * @param templateData: Dataset of the new template
-   * @return Promise with a boolean stating success or failure.
+   * Add a work item to the work items database
+   * @param input the data provided by the user
+   * @return Promise with either the task id or th error
    */
-  public uploadTemplate(templateData: templateUpload): Promise<boolean> {
+  public addWorkItem(input: templateData): Promise<string | any> {
+    const taskId: string = uuid.v4();
+    const workItem: Object = input;
+    workItem['_id'] = taskId;
     return new Promise((resolve, reject) => {
-      // In the end an upload is nothing but an update.
-      // We just have to generate an id first
-      const templateId: string = uuid.v4();
-      templateData['templateId'] = templateId;
-      this.updateTemplate(templateId, templateData).then((success) => {
-        resolve(true);
+      this.workItems.insert(workItem).then((ret) => {
+        resolve(<string> ret.id);
       }).catch((err) => {
-        reject(false);
+        console.log(err);
+        reject(err);
       });
+    });
+  }
+
+  /**
+   * Returns the data of a specific work item
+   * @param taskId the id of a task to be done
+   * @return Promise with either the data for this task or an error
+   */
+  public getWorkItem(taskId: string): Promise<templateData | Error> {
+    return new Promise((resolve, reject) => {
+      this.workItems.get(taskId).then((doc: templateData) => {
+        resolve(doc);
+      }).catch((err) => {
+        console.log(err);
+        reject(err);
+      });
+    });
+  }
+
+  /**
+   * Returns the data of one specific template
+   * @param templateId the id of the template to retrieve
+   * @return Promise with either the data for this template or an error
+   */
+  public getTemplate(templateId: string): Promise<extendedTemplateObject | Error> {
+    return new Promise((resolve, reject) => {
+      this.templates.get(templateId).then((doc: extendedTemplateObject) => {
+        resolve(doc);
+      }).catch((err) => {
+        console.log(err);
+        reject(err);
+      });
+    });
+  }
+
+  /**
+   * Increases the number of executions in the db for a given template
+   * @param templateObject The template object as it has been used. Executions will be updated automatically.
+   */
+  public increaseExecutions(templateObject: extendedTemplateObject): void {
+    templateObject.executions += 1;
+    this.templates.insert(templateObject).then(() => {
+      // Do nothing
+    }).catch((err) => {
+      console.log(err);
     });
   }
 }

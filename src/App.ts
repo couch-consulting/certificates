@@ -2,16 +2,27 @@ import * as path from 'path';
 import * as express from 'express';
 import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
+import * as cors from 'cors';
 import CertifyRouter from './routes/CertifyRouter';
 import TemplateRouter from './routes/TemplateRouter';
 import ManageRouter from './routes/ManageRouter';
+import RenderRouter from './routes/RenderRouter';
 
 // Creates and configures an ExpressJS web server.
 class App {
-    // ref to Express instance
+  // ref to Express instance
   public express: express.Application;
+  private corsOptions:cors.CorsOptions;
+
   // Run configuration methods on the Express instance.
   constructor() {
+    this.corsOptions = {
+      allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'X-Access-Token'],
+      credentials: true,
+      methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+      origin: '*',
+      preflightContinue: false,
+    };
     this.express = express();
     this.middleware();
     this.routes();
@@ -36,11 +47,14 @@ class App {
         message: 'Hello World!',
       });
     });
+
+    this.express.use(cors(this.corsOptions));
     this.express.use('/', router);
     this.express.use('/certify', CertifyRouter);
     this.express.use('/templates', TemplateRouter);
     this.express.use('/management', ManageRouter);
-
+    this.express.use('/generateTemplate', RenderRouter);
+    this.express.options('*', cors(this.corsOptions));
   }
 
 }

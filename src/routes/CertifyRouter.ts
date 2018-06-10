@@ -25,14 +25,14 @@ export class CertifyRouter {
     filepath += uuid;
     console.log(filepath);
     fs.pathExists(filepath).then(() => {
-      console.log('Found file');
+      // Make sure the browser displays the pdf and does not just download it
       res.setHeader('Content-Type', 'application/pdf');
       res.setHeader('Content-Disposition', 'inline');
       res.sendFile(filepath);
     }).catch((err) => {
       console.log(err);
       res.setHeader('Content-Type', 'application/json');
-      res.send({});
+      res.sendStatus(404);
     });
   }
 
@@ -47,8 +47,8 @@ export class CertifyRouter {
 
 }
 
-// Create the HeroRouter, and export its configured Express.Router
-const certifyRoutes = new CertifyRouter();
+// Create the router and export its configured Express.Router
+export const certifyRoutes = new CertifyRouter();
 certifyRoutes.init();
 
 export default certifyRoutes.router;

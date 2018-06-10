@@ -1,22 +1,24 @@
   swagger: "2.0"
   info:
-    version: "0.0.1"
+    version: "0.1.0"
     title: Certificate Creator
+    description: This API generates certificates by given templates to honer other peoples efforts
   # during dev, should point to your local machine
-  host: localhost:10010
+  host: certification-api.eu-de.mybluemix.net
   # basePath prefixes all resource paths
   basePath: /
-  #
+
   schemes:
     # tip: remove http to make production-grade
-    - http
     - https
   # format of bodies a client can send (Content-Type)
   consumes:
     - application/json
-  # format of the responses to the client (Accepts)
+
+    # format of the responses to the client (Accepts)
   produces:
     - application/json
+    - application/pdf
 
   tags:
     - name: Broker
@@ -57,9 +59,9 @@
               $ref: "#/definitions/templateData"
         responses:
           201:
-            description: "New template ID"
+            description: "New task ID"
             schema:
-              $ref: "#/definitions/templateId"
+              $ref: "#/definitions/taskId"
           400:
             description: "Invalid format"
       get:
@@ -75,6 +77,28 @@
               $ref: "#/definitions/templateList"
           400:
             description: "Something is wrong"
+
+    /templates/{templateId}:
+      get:
+        description: "Get a specific template"
+        tags:
+          - Broker
+        produces:
+          - application/json
+        parameters:
+          - name: "templateId"
+            in: "path"
+            description: "ID of the template to retreive"
+            required: true
+            type: "string"
+            format: "uuid"
+        responses:
+          200:
+            description: "A single template"
+            schema:
+              $ref: "#/definitions/templateObject"
+          404:
+            description: "Template ID not found"
 
     /generateTemplate/{taskId}:
       post:
@@ -120,7 +144,6 @@
       post:
         description: "Upload a new template"
         tags:
-          - Storage
           - Management
         parameters:
           - name: "template"
@@ -136,7 +159,6 @@
       get:
         description: "Get all templates"
         tags:
-          - Storage
           - Management
         responses:
           200:
@@ -145,10 +167,30 @@
               $ref: "#/definitions/extendedTemplateList"
 
     /management/{templateId}:
+      get:
+        description: "Get a specific template"
+        tags:
+          - Management
+        produces:
+          - application/json
+        parameters:
+          - name: "templateId"
+            in: "path"
+            description: "ID of the template to retreive"
+            required: true
+            type: "string"
+            format: "uuid"
+        responses:
+          200:
+            description: "A single template"
+            schema:
+              $ref: "#/definitions/extendedTemplateObject"
+          404:
+            description: "Template ID not found"
+
       put:
         description: "Update a template with a given ID"
         tags:
-          - Storage
           - Management
         parameters:
           - in: "path"
@@ -170,7 +212,6 @@
       delete:
         description: "Delete a template with a given id"
         tags:
-          - Storage
           - Management
         parameters:
           - in: "path"
@@ -195,6 +236,14 @@
         - templateId
       properties:
         templateId:
+          type: "string"
+          format: "uuid"
+
+    taskId:
+      required:
+        - taskId
+      properties:
+        taskId:
           type: "string"
           format: "uuid"
 
