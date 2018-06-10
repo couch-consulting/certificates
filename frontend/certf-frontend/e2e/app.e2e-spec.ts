@@ -44,14 +44,33 @@ describe('certf-frontend App', () => {
 
   it('should have object on certf page', () => {
     page.navigateToCertf();
-
     expect(page.getfirstCardCertf().getText()).toEqual('Use this!');
-
-
   });
 
+  it('get from certf object to selected comp.', () => {
+    page.navigateToCertf();
+    page.getfirstCardCertf().click();
 
-  //TODO Rest machen wenn server wieder geht (bis 10 - für jede seite 1)
+    expect(page.getfirstCardSelected().getText()).toEqual('Serious Inputs');
+  });
+
+  it('create certf pops up', () => {
+    page.navigateToMgmt();
+    page.getMgmtPage().click();
+    expect(page.getPopUpCreate().getText()).toEqual('Configure Values');
+  });
+
+  it('should have object on mgmt page', () => {
+    page.navigateToMgmt();
+    expect(page.getfirstCardMgmt().getText()).toEqual('Configure');
+  });
+
+  it('get from mgmt object to change comp.', () => {
+    page.navigateToMgmt();
+    page.getfirstCardMgmt().click();
+
+    expect(page.getfirstCardChange().getText()).toEqual('Information about this Certificate');
+  });
 
 
 });
