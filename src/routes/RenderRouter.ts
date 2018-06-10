@@ -11,8 +11,6 @@ import { templateData, extendedTemplateObject } from '../models/Interfaces';
 export class RenderRouter {
   router: Router;
   private database: Database;
-  private instance;
-
   /**
    * Initialize the router
    */
@@ -20,12 +18,6 @@ export class RenderRouter {
     this.database = new Database();
     this.router = Router();
     nunjucks.configure({ autoescape: true });
-    phantom.create().then((phantom) => {
-      this.instance = phantom;
-    }).catch((err) => {
-      console.log(err);
-    });
-
     this.init();
   }
 
@@ -36,19 +28,24 @@ export class RenderRouter {
       // Render the replacements into a finished html
       const certificate: string = nunjucks.renderString(templateContent, taskData);
       // Initialize a phantomjs page
-      this.instance.createPage().then((page) => {
-        // This is an weird function loading said content with the given url
-        // aka. inject html from a string.
-        page.setContent(certificate, '');
-        page.property('paperSize', {
-          format: 'A4',
-          orientation: 'portrait',
-          margin: '1cm',
-        });
-        // Finally create the pdf
-        page.render(filepath, { format: 'pdf' }).then(() => {
-          resolve(200);
-        }).catch((err) => { // render
+      phantom.create().then((instance) => {
+        instance.createPage().then((page) => {
+          // This is an weird function loading said content with the given url
+          // aka. inject html from a string.
+          page.setContent(certificate, '');
+          page.property('paperSize', {
+            format: 'A4',
+            orientation: 'portrait',
+            margin: '1cm',
+          });
+          // Finally create the pdf
+          page.render(filepath, { format: 'pdf' }).then(() => {
+            resolve(200);
+          }).catch((err) => { // render
+            console.log(err);
+            reject(500);
+          });
+        }).catch((err) => {
           console.log(err);
           reject(500);
         });
@@ -101,7 +98,7 @@ export class RenderRouter {
 }
 
 // Create the router and export its configured Express.Router
-export const renderRoute = new RenderRouter();
-renderRoute.init();
+export const renderRouter = new RenderRouter();
+// renderRoute.init();
 
-export default renderRoute.router;
+export default renderRouter.router;

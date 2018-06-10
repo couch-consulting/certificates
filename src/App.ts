@@ -56,7 +56,6 @@ class App {
     this.express.use('/generateTemplate', RenderRouter);
     this.express.options('*', cors(this.corsOptions));
   }
-
 }
 
 export default new App().express;

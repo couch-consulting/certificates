@@ -5,7 +5,8 @@
     "moduleResolution": "node",
     "removeComments": true,
     "module": "commonjs",
-    "types": [ "node", "mocha", "chai" ]
+    "outDir": "build/app",
+    "types": [ "node" ]
   },
   "include": [
     "src/routes/*.ts",
@@ -13,7 +14,7 @@
     "src/*.ts"
   ],
   "exclude": [
-    "node_modules",
-    "src/test/*.ts"
+    "node_modules/*",
+    "test/*.ts"
   ]
 }

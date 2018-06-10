@@ -14,7 +14,7 @@ var files = {
     'src/**/*.ts',
   ],
   projectTestSources: [
-    'src/tests/*.ts',
+   'test/*.ts',
   ],
   projectAssets: [],
   vendorAssets: [],
@@ -42,7 +42,7 @@ function validateSources() {
 var codeValidation = gulp.parallel(validateSources);
 
 // Run mocha test
-
+//
 function runTests() {
   return gulp.src(files.projectTestSources)
     .pipe(mocha({
@@ -83,5 +83,5 @@ var codeDocumentation = gulp.series(generateDocumentation);
 
 // Common task definition
 
-gulp.task('build', gulp.series(clean, codeValidation, gulp.parallel(codeCompilation, codeDocumentation)));
+gulp.task('build', gulp.series(clean, codeValidation, codeTesting, gulp.parallel(codeCompilation, codeDocumentation)));
 gulp.task('default', gulp.series('build'));
