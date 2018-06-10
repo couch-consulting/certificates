@@ -1,0 +1,55 @@
+<div *ngIf="previewCertfMgmtObs | async; let previewCertfMgmt; else loading">
+
+  <mat-card fxFlex class="Detail-Card">
+
+    <mat-card-header>
+      <mat-card-title class="mat-card-title">Information about this Certificate</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <h4>Name:</h4>
+      <p>{{previewCertfMgmt.name}}</p>
+      <h4>Description:</h4>
+      <p>{{previewCertfMgmt.description}}</p>
+
+
+      <h4>Addition Input Fields:</h4>
+      <p>{{previewCertfMgmt.inputFields.toString()}}</p>
+      <h4>Description:</h4>
+      <p>{{previewCertfMgmt.description}}</p>
+
+      <h4>Id:</h4>
+      <p>{{previewCertfMgmt.templateId}}</p>
+      <h4>Executions:</h4>
+      <p>{{previewCertfMgmt.executions}}</p>
+
+
+      <h4>Preview Image:</h4>
+      <img mat-card-image src={{previewCertfMgmt.previewImage}} alt="Image of certificate">
+
+      <h4>Preview HTML:</h4>
+      <p>{{previewCertfMgmt.previewHTML}}</p>
+
+    </mat-card-content>
+    <mat-progress-spinner *ngIf="loading2"
+                          style="margin:auto;z-index: 999;" color="accent"
+                          mode="indeterminate">
+    </mat-progress-spinner>
+    <mat-card-actions fxLayoutAlign="space-evenly center">
+      <button mat-raised-button class="button" color="accent" fxFlex (click)="openDialog_change()">Change</button>
+      <button mat-raised-button class="button" color="warn" fxFlex (click)="openDialog_delete()">Delete</button>
+      <button mat-raised-button class="button" color="primary" fxFlex (click)="goBack()">Go Back</button>
+    </mat-card-actions>
+
+
+  </mat-card>
+
+
+</div>
+<ng-template #loading>
+  <mat-progress-spinner
+    style="margin:auto;" color="accent"
+    mode="indeterminate">
+  </mat-progress-spinner>
+</ng-template>
+

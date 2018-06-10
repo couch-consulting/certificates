@@ -1,0 +1,31 @@
+<h1 mat-dialog-title>Configure Values</h1>
+
+<div class="input-container" fxFlex mat-dialog-content fxLayout="column" fxLayoutAlign="space-around start">
+  <mat-form-field style="width: 100%">
+    <input matInput placeholder="Name" [(ngModel)]="data.previewCertfMgmt.name">
+  </mat-form-field>
+
+  <mat-form-field style="width: 100%">
+    <input matInput placeholder="Description" [(ngModel)]="data.previewCertfMgmt.description">
+  </mat-form-field>
+
+  <mat-form-field style="width: 100%">
+    <input matInput placeholder="Addition Input Field Names [ENTER SEPERATED BY COMMA]"
+           [(ngModel)]="data.previewCertfMgmt.inputFields">
+  </mat-form-field>
+
+  <mat-form-field style="width: 100%">
+    <input matInput placeholder="Preview Image Bas64 String" [(ngModel)]="data.previewCertfMgmt.previewImage">
+  </mat-form-field>
+
+  <mat-form-field style="width: 100%">
+    <input matInput placeholder="Preview HTML String" [(ngModel)]="data.previewCertfMgmt.previewHTML">
+  </mat-form-field>
+</div>
+
+
+<div mat-dialog-actions fxLayoutAlign="space-evenly center">
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data.previewCertfMgmt" cdkFocusInitial>Ok</button>
+</div>
+

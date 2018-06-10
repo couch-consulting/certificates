@@ -12,6 +12,8 @@ import {CertfdataService, DialogHTTPError} from './services/certfdata.service';
 import {HomeComponent} from './components/home/home.component';
 import {SelectedComponent} from './components/selected/selected.component';
 import {HttpClientModule} from "@angular/common/http";
+import {DialogCreate, MgmtComponent} from './components/mgmt/mgmt.component';
+import {ChangeComponent, DialogChange, DialogDelete, PutSnackBar} from './components/mgmt/change/change.component';
 
 
 @NgModule({
@@ -20,7 +22,13 @@ import {HttpClientModule} from "@angular/common/http";
     ContentCardsComponent,
     HomeComponent,
     SelectedComponent,
-    DialogHTTPError
+    DialogHTTPError,
+    MgmtComponent,
+    ChangeComponent,
+    DialogChange,
+    DialogCreate,
+    DialogDelete,
+    PutSnackBar
   ],
   imports: [
     BrowserModule,
@@ -32,7 +40,7 @@ import {HttpClientModule} from "@angular/common/http";
     ReactiveFormsModule,
     HttpClientModule
   ],
-  entryComponents: [DialogHTTPError],
+  entryComponents: [DialogHTTPError, DialogChange, PutSnackBar, DialogCreate, DialogDelete],
   providers: [CertfdataService],
   bootstrap: [AppComponent]
 })

@@ -14,6 +14,7 @@ export class ContentCardsComponent implements OnInit {
   constructor(private certfdataService: CertfdataService) { }
 
   ngOnInit() {
+    //Get all Certfs
     this.previewCertfs = this.certfdataService.getCertfs();
   }
 

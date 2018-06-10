@@ -62,7 +62,10 @@ export class SelectedComponent implements OnInit {
 
   }
 
-
+  /**
+   * Get Certf data of the selected certf.
+   * @returns {Observable<PreviewCertf>}
+   */
   getCertfdata() {
     const templateId = this.route.snapshot.paramMap.get('templateId');
 
@@ -71,17 +74,30 @@ export class SelectedComponent implements OnInit {
 
   }
 
+  /**
+   * function for decleration after the async http call was succesfully made
+   * @param previewCertf
+   */
   gotCertfData(previewCertf): void {
     this.previewCertf = previewCertf;
+    console.log(this.previewCertf);
     this.previewCertf.inputFields.forEach((input) => {
       this.additionalInputs[input] = '';
     })
   }
 
+  /**
+   * goes back to last page
+   */
   goBack(): void {
     this.location.back();
   }
 
+  /**
+   * Workaround to update input values, inital used for data binding to preview html
+   * @param event key event
+   * @param {string} input which input it is coming from
+   */
   onKey(event: any, input: string) {
     switch (input) {
       case 'certifier':
@@ -106,7 +122,10 @@ export class SelectedComponent implements OnInit {
 
   }
 
-
+  /**
+   * Updates certification variable
+   * @param event
+   */
   update(event: any) {
     this.certificationDate = (<Date>event).toLocaleDateString();
   }
@@ -114,7 +133,7 @@ export class SelectedComponent implements OnInit {
 
   generateCertf(): void {
 
-
+    //additonal check if values are not none
     if (this.certifier !== '' && this.certificant !== '' && this.laudatio !== '') {
       this.userInput["templateId"] = this.previewCertf.templateId;
       this.userInput["certifier"] = this.certifier;
@@ -126,6 +145,7 @@ export class SelectedComponent implements OnInit {
       this.userInput["certificationPlace"] = this.certificationPlace;
       this.userInput["additionalInputs"] = this.additionalInputs;
       this.loading2 = true;
+      //post input data to server, creates templetid object
       this.certfdataService.postCertf(this.userInput).subscribe(
         newTempletId => this.newTempletId = newTempletId,
         error => console.log("Error: ", error),
@@ -136,13 +156,18 @@ export class SelectedComponent implements OnInit {
 
   }
 
-
+  /**
+   * Call back function trigged when post request was successfull
+   */
   completeCallback() {
     this.loading2 = false;
     this.pdf = true;
 
   }
 
+  /**
+   * Opens PDF in new Window
+   */
   openPDF() {
     window.open(this.apiurl + "/certify/" + this.newTempletId['taskId'], "_blank");
   }

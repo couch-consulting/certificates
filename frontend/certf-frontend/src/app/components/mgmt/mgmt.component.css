@@ -1,0 +1,47 @@
+.start-card {
+  min-width: 23%;
+  max-width: 23%;
+  width: 23%;
+  margin: 0.5%;
+
+  -webkit-transition: background-color 500ms ease-out 25ms, min-width 200ms, max-width 200ms, width 200ms;
+  -moz-transition: background-color 500ms ease-out 25ms, min-width 200ms, max-width 200ms, width 200ms;
+  -o-transition: background-color 500ms ease-out 25ms, min-width 200ms, max-width 200ms, width 200ms;
+  transition: background-color 500ms ease-out 25ms, min-width 200ms, max-width 200ms, width 200ms;
+}
+
+.start-card:hover {
+  width: 27%;
+  min-width: 27%;
+  max-width: 27%;
+
+  -webkit-transition: background-color 500ms ease-out 100ms, min-width 1s, max-width 1s, width 1s;
+  -moz-transition: background-color 500ms ease-out 100ms, min-width 1s, max-width 1s, width 1s;
+  -o-transition: background-color 500ms ease-out 100ms, min-width 1s, max-width 1s, width 1s;
+  transition: background-color 500ms ease-out 100ms, min-width 1s, max-width 1s, width 1s;
+
+  background: rgba(192, 200, 255, 0.15);
+}
+
+.container {
+  min-width: fit-content;
+}
+
+@media only screen and (max-width: 500px) {
+  .start-card {
+    max-width: 48%;
+    width: auto;
+    min-width: auto;
+  }
+
+  .start-card:hover {
+    max-width: 48%;
+    width: auto;
+    min-width: auto;
+  }
+}
+
+.Detail-Card {
+  margin: 0.5%;
+
+}
