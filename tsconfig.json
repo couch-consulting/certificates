@@ -1,12 +1,9 @@
 {
-  "files": [
-    "src/**/*.ts"
-  ],
   "compilerOptions": {
     "noImplicitAny": false,
     "target": "es2015",
-    "types": ["node"],
     "moduleResolution": "node",
-    "module": "commonjs"
+    "module": "commonjs",
+    "types": [ "node", "mocha", "chai" ]
   }
 }

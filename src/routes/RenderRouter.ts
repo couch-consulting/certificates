@@ -29,45 +29,53 @@ export class RenderRouter {
     this.init();
   }
 
+  public renderCertificate(templateContent: string, taskData: templateData, taskId: string): Promise<number> {
+    let filepath: string = process.env.STORAGE_PATH || '/tmp/';
+    filepath += taskId;
+    return new Promise((resolve, reject) => {
+      // Render the replacements into a finished html
+      const certificate: string = nunjucks.renderString(templateContent, taskData);
+      // Initialize a phantomjs page
+      this.instance.createPage().then((page) => {
+        // This is an weird function loading said content with the given url
+        // aka. inject html from a string.
+        page.setContent(certificate, '');
+        page.property('paperSize', {
+          format: 'A4',
+          orientation: 'portrait',
+          margin: '1cm',
+        });
+        // Finally create the pdf
+        page.render(filepath, { format: 'pdf' }).then(() => {
+          resolve(200);
+        }).catch((err) => { // render
+          console.log(err);
+          reject(500);
+        });
+      }).catch((err) => {
+        console.log(err);
+        reject(500);
+      });
+    });
+  }
+
   /**
    * POST call to render a new certificate
    */
-  public renderCertificate(req: Request, res: Response, next: NextFunction) {
+  public createCertificate(req: Request, res: Response, next: NextFunction) {
     // In a refactoring someday in the future someone might want to look
     // into using async/await instead of promises to increase the readability
-    let filepath: string = process.env.STORAGE_PATH || '/tmp/';
-    filepath += req.params.taskId;
 
     // get the workItem of the task id and optain the certificate data for this work item
     this.database.getWorkItem(req.params.taskId).then((taskData: templateData) => {
       this.database.checkTemplateId(taskData.templateId).then(() => {
         this.database.getTemplate(taskData.templateId).then((templateData: extendedTemplateObject) => {
-          // Render the replacements into a finished html
-          const certificate: string = nunjucks.renderString(templateData.previewHTML, taskData);
-          // Initialize a phantomjs page
-          this.instance.createPage().then((page) => {
-            // This is an weird function loading said content with the given url
-            // aka. inject html from a string.
-            page.setContent(certificate, '');
-            page.property('paperSize', {
-              format: 'A4',
-              orientation: 'portrait',
-              margin: '1cm',
-            });
-            // Finally create the pdf
-            page.render(filepath, { format: 'pdf' }).then(() => {
-              res.sendStatus(200);
-            }).catch((err) => { // render
-              console.log(err);
-              res.statusMessage = 'Template rendering failed';
-              res.sendStatus(500);
-            });
-          }).catch((err) => { // createPage
-            console.log(err);
-            res.statusMessage = 'Template rendering failed';
-            res.sendStatus(500);
+          this.renderCertificate(templateData.previewHTML, taskData, req.params.taskId).then((resCode: number) => {
+            this.database.increaseExecutions(templateData);
+            res.sendStatus(resCode);
+          }).catch((resCode: number) => {
+            res.sendStatus(resCode);
           });
-          this.database.increaseExecutions(templateData);
         }).catch((err) => { // getTemplate
           res.sendStatus(500);
         });
@@ -87,7 +95,7 @@ export class RenderRouter {
    * endpoints.
    */
   init() {
-    this.router.post('/:taskId', this.renderCertificate.bind(this));
+    this.router.post('/:taskId', this.createCertificate.bind(this));
   }
 
 }

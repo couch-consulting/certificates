@@ -3,6 +3,7 @@ var del = require('del');
 var tslint = require("gulp-tslint");
 var ts = require("gulp-typescript");
 var typedoc = require("gulp-typedoc");
+var mocha = require('gulp-mocha');
 
 var tsProject = ts.createProject("tsconfig.json");
 
@@ -12,7 +13,9 @@ var files = {
   projectSources: [
     'src/**/*.ts',
   ],
-  projectTestSources: [],
+  projectTestSources: [
+    'src/tests/*.ts',
+  ],
   projectAssets: [],
   vendorAssets: [],
 };
@@ -37,6 +40,23 @@ function validateSources() {
 }
 
 var codeValidation = gulp.parallel(validateSources);
+
+// Run mocha test
+
+function runTests() {
+  return gulp.src(files.projectTestSources)
+    .pipe(mocha({
+      reporter: 'spec',
+      require: ['ts-node/register'],
+      exit: true
+    })
+    .on('error', err => {
+			console.error(err);
+			process.exit(1);
+		}));
+}
+
+var codeTesting = gulp.parallel(runTests);
 
 // Uglify code
 
@@ -63,5 +83,5 @@ var codeDocumentation = gulp.series(generateDocumentation);
 
 // Common task definition
 
-gulp.task('build', gulp.series(clean, codeValidation, gulp.parallel(codeCompilation, codeDocumentation)));
+gulp.task('build', gulp.series(clean, codeValidation, codeTesting, gulp.parallel(codeCompilation, codeDocumentation)));
 gulp.task('default', gulp.series('build'));

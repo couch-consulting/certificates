@@ -87,23 +87,21 @@ export default class Database {
   /**
    * Deletes a template with a given ID
    * @param templateId the uuid of the template to delete
-   * @return Promise of the success of the operation
+   * @return Promise returning http response codes
    */
-  public deleteTemplate(templateId: string): Promise<boolean> {
+  public deleteTemplate(templateId: string): Promise<number> {
     return new Promise((resolve, reject) => {
       // Cloudant needs the revision of the object to be worked on.
       this.templates.get(templateId).then((data) => {
         // Delete the template with the given id and revision
-        this.templates.destroy(templateId, data.rev).then((data) => {
-          dbDebug(data);
-          resolve(true);
+        this.templates.destroy(templateId, data._rev).then((data) => {
+          resolve(200);
         }).catch((err) => {
-          dbDebug(err);
-          reject(false);
+          console.log(err);
+          reject(500);
         });
       }).catch((err) => {
-        dbDebug(err);
-        reject(false);
+        reject(404);
       });
     });
   }
@@ -121,6 +119,7 @@ export default class Database {
       this.templates.get(templateId).then((document) => {
         templateData['_id'] = templateId;
         templateData['_rev'] = document._rev;
+        templateData['executions'] = document.executions;
         this.templates.insert(templateData).then((data) => {
           // dbDebug(data);
           console.log(data);
@@ -150,6 +149,7 @@ export default class Database {
       templateId.templateId = uuid.v4();
       templateData['templateId'] = templateId.templateId;
       templateData['_id'] = templateId.templateId;
+      templateData['executions'] = 0;
       this.templates.insert(templateData).then((success) => {
         resolve(templateId);
       }).catch((err) => {

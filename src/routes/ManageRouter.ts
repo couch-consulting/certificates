@@ -32,7 +32,6 @@ export class ManagementRouter {
    * GET operational data of all templates
    */
   public getTemplates(req: Request, res: Response, next: NextFunction) {
-    console.log('getTemplates');
     // Get Management view of all templates
     this.database.getAllTemplates(true).then((data: extendedTemplateList) => {
       res.send(data);
@@ -58,10 +57,10 @@ export class ManagementRouter {
    * DELETE a template with a given id
    */
   public deleteTemplate(req: Request, res: Response, next: NextFunction) {
-    this.database.deleteTemplate(req.params.templateId).then((data: boolean) => {
-      res.sendStatus(200);
-    }).catch((err: boolean) => {
-      res.sendStatus(404);
+    this.database.deleteTemplate(req.params.templateId).then((resCode: number) => {
+      res.sendStatus(resCode);
+    }).catch((resCode) => {
+      res.sendStatus(resCode);
     });
   }
 
