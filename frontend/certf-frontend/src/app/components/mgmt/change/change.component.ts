@@ -76,7 +76,7 @@ export class ChangeComponent implements OnInit {
       this.putBody['description'] = this.result.description;
 
 
-      this.putBody['inputFields'] = <string>(this.result.inputFields).replace(/ /g, '').split(",");
+      this.putBody['inputFields'] = this.result.inputFields.toString().replace(/ /g, '').split(",");
 
 
       this.putBody['previewHTML'] = this.result.previewHTML;

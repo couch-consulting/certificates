@@ -1,4 +1,5 @@
-import { AppPage } from './app.po';
+import {AppPage} from './app.po';
+
 
 describe('certf-frontend App', () => {
   let page: AppPage;
@@ -7,8 +8,49 @@ describe('certf-frontend App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('should display Homepage H1 message', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!');
+    expect(page.getHomePage()).toEqual('Create extremely serious certificates and download them today!');
   });
+
+  it('should display mgmt button', () => {
+    page.navigateTo();
+    expect(page.getMgmtButton().getText()).toEqual('Mgmt');
+  });
+
+  it('should route to mgmt page', () => {
+    page.navigateTo();
+    page.getMgmtButton().click();
+    expect(page.getMgmtPage().getText()).toEqual('Create new Certificate.');
+  });
+
+
+  it('should display home button', () => {
+    page.navigateTo();
+
+    expect(page.getHomeButton().getText()).toEqual('home');
+  });
+
+  it('should route to home page', () => {
+    page.navigateTo();
+    page.getHomeButton().click();
+    expect(page.getHomePage()).toEqual('Create extremely serious certificates and download them today!');
+  });
+
+  it('should display certf button', () => {
+    page.navigateTo();
+    expect(page.getCertfButton().getText()).toEqual('Start creating the most serious certificates!');
+  });
+
+  //TODO machen wenn server wieder geht
+  it('should route to certf page', () => {
+    page.navigateTo();
+
+    expect(page.getMgmtButton().getText()).toEqual('Mgmt');
+  });
+
+
+  //TODO Rest machen wenn server wieder geht (bis 10 - für jede seite 1)
+
+
 });

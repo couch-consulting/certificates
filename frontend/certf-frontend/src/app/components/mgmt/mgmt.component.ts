@@ -61,7 +61,7 @@ export class MgmtComponent implements OnInit {
       this.postBody['name'] = this.result.name;
       this.postBody['description'] = this.result.description;
 
-      this.postBody['inputFields'] = <string>(this.result.inputFields).replace(/ /g, '').split(",");
+      this.postBody['inputFields'] = this.result.inputFields.toString().replace(/ /g, '').split(",");
 
       this.postBody['previewHTML'] = this.result.previewHTML;
       this.postBody['previewImage'] = this.result.previewImage;
