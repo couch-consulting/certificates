@@ -144,7 +144,6 @@
       post:
         description: "Upload a new template"
         tags:
-          - Storage
           - Management
         parameters:
           - name: "template"
@@ -160,7 +159,6 @@
       get:
         description: "Get all templates"
         tags:
-          - Storage
           - Management
         responses:
           200:
@@ -169,10 +167,30 @@
               $ref: "#/definitions/extendedTemplateList"
 
     /management/{templateId}:
+      get:
+        description: "Get a specific template"
+        tags:
+          - Management
+        produces:
+          - application/json
+        parameters:
+          - name: "templateId"
+            in: "path"
+            description: "ID of the template to retreive"
+            required: true
+            type: "string"
+            format: "uuid"
+        responses:
+          200:
+            description: "A single template"
+            schema:
+              $ref: "#/definitions/extendedTemplateObject"
+          404:
+            description: "Template ID not found"
+
       put:
         description: "Update a template with a given ID"
         tags:
-          - Storage
           - Management
         parameters:
           - in: "path"
@@ -194,7 +212,6 @@
       delete:
         description: "Delete a template with a given id"
         tags:
-          - Storage
           - Management
         parameters:
           - in: "path"

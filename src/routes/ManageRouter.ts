@@ -1,7 +1,7 @@
 import Database from '../models/Database';
 import { Router, Request, Response, NextFunction } from 'express';
 import { json } from 'body-parser';
-import { extendedTemplateList, TemplateId } from '../models/Interfaces';
+import { extendedTemplateList, TemplateId, extendedTemplateObject } from '../models/Interfaces';
 
 export class ManagementRouter {
   router: Router;
@@ -66,19 +66,31 @@ export class ManagementRouter {
   }
 
   /**
+   * GET all data of a specific template
+   */
+  public getTemplate(req: Request, res: Response, next: NextFunction) {
+    this.database.getTemplate(req.params.templateId).then((template: extendedTemplateObject) => {
+      res.send(template);
+    }).catch(() => {
+      res.send(404);
+    });
+  }
+
+  /**
    * Take each handler, and attach to one of the Express.Router's
    * endpoints.
    */
   init() {
     this.router.get('/', this.getTemplates.bind(this));
     this.router.post('/', this.uploadTemplate.bind(this));
+    this.router.get('/:templateId', this.getTemplate.bind(this));
     this.router.put('/:templateId', this.updateTemplate.bind(this));
     this.router.delete('/:templateId', this.deleteTemplate.bind(this));
   }
 
 }
 
-// Create the HeroRouter, and export its configured Express.Router
+// Create the router and export its configured Express.Router
 const managementRoutes = new ManagementRouter();
 managementRoutes.init();
 
