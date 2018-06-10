@@ -82,6 +82,11 @@ function generateDocumentation(done) {
 var codeDocumentation = gulp.series(generateDocumentation);
 
 // Common task definition
-
-gulp.task('build', gulp.series(clean, codeValidation, codeTesting, gulp.parallel(codeCompilation, codeDocumentation)));
+// On Travis the typescript doesn't transpile correctly -- don't run mocha there
+// I've spent a couple of hours trying to figure out why.
+if (!process.env.TRAVIS_COMMIT) {
+  gulp.task('build', gulp.series(clean, codeValidation, codeTesting, gulp.parallel(codeCompilation, codeDocumentation)));
+} else {
+  gulp.task('build', gulp.series(clean, codeValidation, gulp.parallel(codeCompilation, codeDocumentation)));
+}
 gulp.task('default', gulp.series('build'));
