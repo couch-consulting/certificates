@@ -42,11 +42,12 @@ describe('certf-frontend App', () => {
     expect(page.getCertfButton().getText()).toEqual('Start creating the most serious certificates!');
   });
 
-  //TODO machen wenn server wieder geht
-  it('should route to certf page', () => {
-    page.navigateTo();
+  it('should have object on certf page', () => {
+    page.navigateToCertf();
 
-    expect(page.getMgmtButton().getText()).toEqual('Mgmt');
+    expect(page.getfirstCardCertf().getText()).toEqual('Use this!');
+
+
   });
 
 

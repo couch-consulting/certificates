@@ -80,7 +80,6 @@ export class SelectedComponent implements OnInit {
    */
   gotCertfData(previewCertf): void {
     this.previewCertf = previewCertf;
-    console.log(this.previewCertf);
     this.previewCertf.inputFields.forEach((input) => {
       this.additionalInputs[input] = '';
     })
@@ -148,7 +147,10 @@ export class SelectedComponent implements OnInit {
       //post input data to server, creates templetid object
       this.certfdataService.postCertf(this.userInput).subscribe(
         newTempletId => this.newTempletId = newTempletId,
-        error => console.log("Error: ", error),
+        error => {
+          console.log("Error: ", error);
+          this.loading2 = false;
+        },
         () => this.completeCallback());
 
 
@@ -157,13 +159,25 @@ export class SelectedComponent implements OnInit {
   }
 
   /**
-   * Call back function trigged when post request was successfull
+   * Call back function started when post request was succs., send genrate request
    */
   completeCallback() {
-    this.loading2 = false;
-    this.pdf = true;
+
+    this.certfdataService.postGenCertf(this.newTempletId['taskId']).subscribe(
+      p => p,
+      error => {
+        console.log("Error: ", error);
+        this.loading2 = false;
+      },
+      () => {
+        this.loading2 = false;
+        this.pdf = true;
+      });
+
+
 
   }
+
 
   /**
    * Opens PDF in new Window

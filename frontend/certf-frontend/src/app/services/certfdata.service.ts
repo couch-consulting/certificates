@@ -47,7 +47,7 @@ export class CertfdataService {
   }
 
   /**
-   * Post request to generate template with given data
+   * Post request to generate template id with given data
    * @param body Input values from user
    * @returns {Observable<any>}
    */
@@ -56,6 +56,17 @@ export class CertfdataService {
       catchError(this.handleError<any>('postCertf')));
 
   }
+
+  /** MANAGEMET
+   * Post request to generate certf pdf with given data
+   * @returns {Observable<any>}
+   */
+  postGenCertf(templateId: string): Observable<any> {
+    return this.http.post(this.baseUrl + 'generateTemplate/' + templateId, {}, httpOptions).pipe(retry(3),
+      catchError(this.handleError<any>('postGenCertf')));
+
+  }
+
 
   /**
    * Error MSG Dialog Window Opener
@@ -103,7 +114,7 @@ export class CertfdataService {
   }
 
   /** MANAGEMET
-   * Post request to generate certf with given data
+   * Post request to generate certf id with given data
    * @param body Input values from user
    * @returns {Observable<any>}
    */
@@ -120,10 +131,10 @@ export class CertfdataService {
    */
   deleteCertfMgmt(templateId: string): Observable<any> {
     return this.http.delete(this.baseUrl + 'management/' + templateId)
-      .pipe(retry(3),
-        catchError(this.handleError<any>('deleteCertfMgmt'))
+      .pipe(catchError(this.handleError<any>('deleteCertfMgmt'))
       );
   }
+
 
   /**
    * HTTP Error Handler

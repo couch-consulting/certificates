@@ -133,7 +133,7 @@ export class ChangeComponent implements OnInit {
           console.log("Error: ", error);
           this.loading2 = false;
         },
-        () => this.openSnackBar());
+        () => this.goBack());
 
     }
   }

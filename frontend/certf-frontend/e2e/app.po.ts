@@ -29,7 +29,11 @@ export class AppPage {
 
   }
 
-  getCertfPage() {
-    //TODO machen wenn server wieder geht
+  navigateToCertf() {
+    return browser.get('/certificates');
+  }
+
+  getfirstCardCertf() {
+    return element(by.css('app-content-card mat-card button'));
   }
 }
