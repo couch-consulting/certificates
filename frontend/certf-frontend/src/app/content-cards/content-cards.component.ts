@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {PreviewCertf} from '../classes/preview-certf';
 import {CertfdataService} from '../services/certfdata.service';
+import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'app-content-card',
@@ -8,18 +9,13 @@ import {CertfdataService} from '../services/certfdata.service';
   styleUrls: ['./content-cards.component.css']
 })
 export class ContentCardsComponent implements OnInit {
-  previewCertfs: PreviewCertf[];
+  previewCertfs: Observable<PreviewCertf[]>;
 
   constructor(private certfdataService: CertfdataService) { }
 
   ngOnInit() {
-    this.getCertfdata();
+    this.previewCertfs = this.certfdataService.getCertfs();
   }
 
-
-
-  getCertfdata(): void {
-    this.certfdataService.getCertfs().subscribe(previewCertfs => this.previewCertfs = previewCertfs);
-  }
 
 }

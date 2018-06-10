@@ -1,70 +1,91 @@
-
+<div *ngIf="previewCertfObs | async; let previewCertf; else loading">
 
 <div class="container" fxFlex fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-evenly center">
   <mat-card fxFlex class="Input-Card">
     <mat-card-header>
       <mat-card-title class="mat-card-title">Serious Inputs</mat-card-title>
     </mat-card-header>
+
     <mat-card-content>
 
 
-    <div class="input-container">
+      <div class="input-container">
 
-      <mat-form-field>
-        <input matInput placeholder="Certifier" required (keyup)="onKey($event,'certifier')">
-      </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Certifier" required (keyup)="onKey($event,'certifier')"
+                 [formControl]="certifierCtrl">
+          <mat-error *ngIf="certifierCtrl.invalid">You must enter a value</mat-error>
+        </mat-form-field>
 
-      <mat-form-field>
-        <input matInput placeholder="Certificant" required (keyup)="onKey($event,'certificant')">
-      </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Certificant" required (keyup)="onKey($event,'certificant')"
+                 [formControl]="certificantCtrl">
+          <mat-error *ngIf="certificantCtrl.invalid">You must enter a value</mat-error>
 
-      <mat-form-field>
-        <input matInput placeholder="Laudatio" required (keyup)="onKey($event,'laudatio')">
-      </mat-form-field>
+        </mat-form-field>
 
-      <mat-form-field>
-      <input matInput [matDatepicker]="picker" placeholder="Date of certification" (keyup)="onKey($event,'certificationDate')">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker (selectedChanged)="update($event)"></mat-datepicker>
-      </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Laudatio" required (keyup)="onKey($event,'laudatio')"
+                 [formControl]="laudatioCtrl">
+          <mat-error *ngIf="laudatioCtrl.invalid">You must enter a value</mat-error>
 
-      <mat-form-field>
-        <input matInput placeholder="Place of certification" (keyup)="onKey($event,'certificationPlace')">
-      </mat-form-field>
+        </mat-form-field>
 
-      <mat-form-field *ngFor="let inputName of previewCertf.inputFields">
-        <input matInput placeholder="{{inputName}}">
-      </mat-form-field>
-    </div>
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker" placeholder="Date of certification"
+                 (keyup)="onKey($event,'certificationDate')">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker (selectedChanged)="update($event)"></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Place of certification" (keyup)="onKey($event,'certificationPlace')">
+        </mat-form-field>
+
+        <mat-form-field *ngFor="let inputName of previewCertf.inputFields">
+          <input matInput placeholder="{{inputName}}" (keyup)="onKey($event,inputName)">
+        </mat-form-field>
+      </div>
 
 
     </mat-card-content>
 
-    <mat-card-actions fxLayoutAlign="space-evenly center">
-      <button mat-raised-button class="button" color="primary" fxFlex>Get TODO</button>
-    </mat-card-actions>
+    <mat-card-actions fxFlex fxLayout="column" fxLayoutAlign="space-around center">
+      <button mat-raised-button class="button-input" color="primary" style="margin-bottom: 10px"
+              (click)="generateCertf()" fxFlex
+              [disabled]="!certifierCtrl.valid || !laudatioCtrl.valid  || !certificantCtrl.valid"
+      >
+        Get serious
 
+      </button>
+      <mat-progress-spinner *ngIf="loading2"
+                            style="margin:auto;z-index: 999;" color="accent"
+                            mode="indeterminate">
+      </mat-progress-spinner>
+      <button mat-raised-button
+              class="button-input"
+              color="accent"
+              *ngIf="pdf"
+              (click)="openPDF()">
+        Your serious certificate
+      </button>
+    </mat-card-actions>
 
   </mat-card>
 
 
   <mat-card fxFlex class="HTML-Card">
-       <mat-card-header>
+    <mat-card-header>
       <mat-card-title class="mat-card-title">Preview HTML</mat-card-title>
     </mat-card-header>
-
-
-    <mat-card-content>
-      <div id="1">
-      </div>
-    </mat-card-content>
-
+    <img mat-card-image src={{previewCertf.previewImage}} alt="Image of certificate">
 
   </mat-card>
 
 </div>
 
-<mat-card fxFlex class="Detail-Card">
+
+  <mat-card fxFlex class="Detail-Card">
 
   <mat-card-header>
     <mat-card-title class="mat-card-title">Serious Information about this Certificate</mat-card-title>
@@ -87,4 +108,11 @@
 </mat-card>
 
 
+</div>
+<ng-template #loading>
+  <mat-progress-spinner
+    style="margin:auto;" color="accent"
+    mode="indeterminate">
+  </mat-progress-spinner>
+</ng-template>
 

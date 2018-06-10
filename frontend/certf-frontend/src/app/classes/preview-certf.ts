@@ -4,5 +4,4 @@ export class PreviewCertf {
   description: string;
   previewImage: string;
   inputFields: string[];
-  previewHTML: string;
 }

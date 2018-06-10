@@ -1,4 +1,6 @@
-<div class="container" fxLayout="row warp" fxLayoutAlign="space-evenly center" >
+<div class="container" fxLayout="row warp" fxLayoutAlign="space-evenly center"
+     *ngIf="previewCertfs | async; let previewCertfs; else loading"
+>
     <mat-card fxFlex class="start-card" *ngFor="let previewCertf of previewCertfs">
 
       <mat-card-header>
@@ -21,4 +23,10 @@
     </mat-card>
 </div>
 
+<ng-template #loading>
+  <mat-progress-spinner style="margin:auto;"
+                        color="accent"
+                        mode="indeterminate">
+  </mat-progress-spinner>
+</ng-template>
 
