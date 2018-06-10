@@ -101,6 +101,7 @@ export default class Database {
           reject(500);
         });
       }).catch((err) => {
+        console.log(err);
         reject(404);
       });
     });

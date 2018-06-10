@@ -59,7 +59,7 @@ export class ManagementRouter {
   public deleteTemplate(req: Request, res: Response, next: NextFunction) {
     this.database.deleteTemplate(req.params.templateId).then((resCode: number) => {
       res.sendStatus(resCode);
-    }).catch((resCode) => {
+    }).catch((resCode: number) => {
       res.sendStatus(resCode);
     });
   }
