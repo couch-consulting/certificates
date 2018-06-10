@@ -3,9 +3,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { json } from 'body-parser';
 import * as nunjucks from 'nunjucks';
-import * as htmlPdf from 'html-pdf';
 import * as phantom from 'phantom';
-import * as fs from 'fs-extra';
 
 import Database from '../models/Database';
 import { templateData, extendedTemplateObject } from '../models/Interfaces';
@@ -14,8 +12,6 @@ export class RenderRouter {
   router: Router;
   private database: Database;
   private instance;
-  private page;
-
 
   /**
    * Initialize the router
@@ -26,9 +22,8 @@ export class RenderRouter {
     nunjucks.configure({ autoescape: true });
     phantom.create().then((phantom) => {
       this.instance = phantom;
-      this.instance.createPage().then((page) => {
-        this.page = page;
-      });
+    }).catch((err) => {
+      console.log(err);
     });
 
     this.init();
@@ -37,39 +32,54 @@ export class RenderRouter {
   /**
    * POST call to render a new certificate
    */
-  public async renderCertificate(req: Request, res: Response, next: NextFunction) {
+  public renderCertificate(req: Request, res: Response, next: NextFunction) {
+    // In a refactoring someday in the future someone might want to look
+    // into using async/await instead of promises to increase the readability
     let filepath: string = process.env.STORAGE_PATH || '/tmp/';
     filepath += req.params.taskId;
+
+    // get the workItem of the task id and optain the certificate data for this work item
     this.database.getWorkItem(req.params.taskId).then((taskData: templateData) => {
       this.database.checkTemplateId(taskData.templateId).then(() => {
         this.database.getTemplate(taskData.templateId).then((templateData: extendedTemplateObject) => {
+          // Render the replacements into a finished html
           const certificate: string = nunjucks.renderString(templateData.previewHTML, taskData);
-          console.log(certificate);
-          const testhtml: string = fs.readFileSync('./bcard.html', 'utf8');
-
-          // Unfortunately only callbacks are supported. gnah.
-          htmlPdf.create(testhtml).toFile(filepath, (err, result) => {
-            if (err) {
+          // Initialize a phantomjs page
+          this.instance.createPage().then((page) => {
+            // This is an weird function loading said content with the given url
+            // aka. inject html from a string.
+            page.setContent(certificate, '');
+            page.property('paperSize', {
+              format: 'A4',
+              orientation: 'portrait',
+              margin: '1cm',
+            });
+            // Finally create the pdf
+            page.render(filepath, { format: 'pdf' }).then(() => {
+              res.sendStatus(200);
+            }).catch((err) => { // render
               console.log(err);
-              res.statusMessage = 'An error occurred while generating the certificate';
+              res.statusMessage = 'Template rendering failed';
               res.sendStatus(500);
-            }
-            console.log(result);
-            res.sendStatus(200);
+            });
+          }).catch((err) => { // createPage
+            console.log(err);
+            res.statusMessage = 'Template rendering failed';
+            res.sendStatus(500);
           });
-        }).catch((err) => {
+          this.database.increaseExecutions(templateData);
+        }).catch((err) => { // getTemplate
           res.sendStatus(500);
         });
-      }).catch(() => {
+      }).catch(() => { // checkTemplateId
         console.log('Template not found');
         res.statusMessage = 'This template doesn\'t exist any more';
         res.sendStatus(404);
       });
-    }).catch((err: number) => {
+    }).catch((err: number) => { // getWorkItem
       res.statusMessage = 'Task ID not found';
       res.sendStatus(404);
     });
-
   }
 
   /**
@@ -82,7 +92,7 @@ export class RenderRouter {
 
 }
 
-// Create the HeroRouter, and export its configured Express.Router
+// Create the router and export its configured Express.Router
 const renderRoute = new RenderRouter();
 renderRoute.init();
 

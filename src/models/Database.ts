@@ -229,4 +229,16 @@ export default class Database {
     });
   }
 
+  /**
+   * Increases the number of executions in the db for a given template
+   * @param templateObject The template object as it has been used. Executions will be updated automatically.
+   */
+  public increaseExecutions(templateObject: extendedTemplateObject): void {
+    templateObject.executions += 1;
+    this.templates.insert(templateObject).then(() => {
+      // Do nothing
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
 }

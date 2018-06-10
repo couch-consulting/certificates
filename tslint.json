@@ -3,7 +3,7 @@
   "rules": {
     "max-line-length": {
       "options": [
-        1024
+        4096
       ]
     },
     "only-arrow-functions": false,
