@@ -1,6 +1,8 @@
-src/*
+*.ts
 .git/
+test/
 gulpfile.js
 tsconfig.json
 tslint.json
 node_modules
+swagger/
